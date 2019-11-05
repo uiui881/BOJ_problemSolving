@@ -1,0 +1,83 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.LinkedList;
+
+public class Main{
+
+	static int[][] map;
+	static int[][] visited;
+	
+	static int[] arrayX = {-1, 1, 0, 0};
+	static int[] arrayY = {0, 0, -1, 1};
+	
+	static int n;
+	static int cnt;
+	
+	static LinkedList<Integer> list = new LinkedList<Integer>();
+	
+	public static void main(String[] args) throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		n = Integer.parseInt(br.readLine());
+		map = new int[n][n];
+		visited = new int[n][n];
+		
+		String str;
+		
+		for(int i=0; i<n;i++) {
+			str = br.readLine();
+			for(int j=0; j<n;j++) {
+				map[i][j]=str.charAt(j)-'0';
+			}
+		}
+		//map 만들기!!
+		
+		//이제 탐색하는 거 찾아야함
+		
+		Solution();
+		
+		Collections.sort(list);
+		System.out.println(list.size());
+		
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+
+	}
+	
+	public static void Solution() {
+		
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<n; j++) {
+				if(map[i][j]==1 && visited[i][j]==0) {
+					cnt=0;
+					DFS(i,j);
+					
+					list.add(cnt);
+				}
+			}
+		}
+	}
+	
+	public static void DFS(int x, int y) {
+		int dx, dy;
+		
+		visited[x][y]= 1;
+		cnt++;
+		for(int i=0; i<4; i++) {
+			dx = x +arrayX[i];
+			dy = y +arrayY[i];
+			
+			if(dx>=0 && dx<n && dy>=0 && dy<n && visited[dx][dy]==0 && map[dx][dy]==1) {
+			
+				DFS(dx, dy);
+				
+			}
+			
+		}
+		
+	}
+}
