@@ -1,0 +1,81 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+public class Main{
+	
+	static int[][] map;
+	static int[][] visited;
+	static int cnt;
+	static LinkedList<Integer> list;
+	
+	static int m,n,k;
+	
+	public static void main(String[] args)throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		list = new LinkedList<Integer>();
+		
+		int TestNum = Integer.parseInt(br.readLine());
+		
+		StringTokenizer stzr;
+		for(int i=0; i<TestNum; i++) {
+			stzr = new StringTokenizer(br.readLine());
+			
+			cnt=0;
+			m = Integer.parseInt(stzr.nextToken());
+			n = Integer.parseInt(stzr.nextToken());
+			k = Integer.parseInt(stzr.nextToken());
+			
+			map = new int[m][n];
+			visited = new int[m][n];
+			
+			for(int j=0; j<k; j++) {
+				stzr = new StringTokenizer(br.readLine());
+				int x = Integer.parseInt(stzr.nextToken());
+				int y = Integer.parseInt(stzr.nextToken());
+				
+				map[x][y]=1;
+			}
+		//맵 만들기 끝!!!!!
+		
+		Solution();
+		list.add(cnt);
+	
+		}for(int u=0; u<list.size();u++) {
+			System.out.println(list.get(u));
+		}
+	}
+	
+	public static void Solution() {
+		
+		for(int i=0; i<m;i++) {
+			for(int j=0; j<n;j++) {
+				if(map[i][j]==1 &&  visited[i][j]==0) {
+					cnt++;
+					DFS(i,j);
+				}
+			}
+		}
+	}
+	
+	public static void DFS(int x, int y) {
+		int[] arrayX = {-1,1,0,0};
+		int[] arrayY = {0,0,-1,1};
+		int dx, dy;
+		
+		visited[x][y]=1;
+		
+		for(int i=0; i<4;i++) {
+			dx = x+ arrayX[i];
+			dy = y+ arrayY[i];
+			
+			if(dx>=0 && dx<m && dy>=0 && dy<n && visited[dx][dy]==0 && map[dx][dy]==1) {
+				DFS(dx,dy);
+			}
+		}
+		
+	}
+}
