@@ -1,0 +1,81 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+public class Main{
+	
+	static int m,n,k;
+	static int[][] map;
+	static int[][] visited;
+	
+	static int num;
+	static LinkedList<Integer> list;
+	
+	public static void main(String[] args)throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		m =Integer.parseInt(stzr.nextToken());//5
+		n =Integer.parseInt(stzr.nextToken());//7
+		k =Integer.parseInt(stzr.nextToken());
+		
+		map = new int[m][n];
+		visited = new int[m][n];
+		list = new LinkedList<Integer>();
+		
+		for(int i=0; i<k; i++) {
+			stzr = new StringTokenizer(br.readLine());
+			int startY = Integer.parseInt(stzr.nextToken());//0
+			int startX = Integer.parseInt(stzr.nextToken());//2
+			int endY = Integer.parseInt(stzr.nextToken());//4
+			int endX = Integer.parseInt(stzr.nextToken());//4
+			
+			for(int a=startX; a<endX;a++) {
+				for(int b= startY; b<endY;b++) {
+					map[a][b]=1;
+				}
+			}
+		}//맵 만들었다.
+		
+		Solution();
+		
+	}
+	
+	public static void Solution() {
+		for(int i=0; i<m;i++) {
+			for(int j=0; j<n;j++) {
+				if(map[i][j]==0 && visited[i][j]==0) {
+					num=0;
+					DFS(i,j);
+					list.add(num);
+				}	
+			}
+		}
+		Collections.sort(list);
+		System.out.println(list.size());
+		for(int a=0; a<list.size();a++) {
+			System.out.print(list.get(a)+" ");
+		}
+	}
+	
+	public static void DFS(int x, int y) {
+		
+		visited[x][y]=1;
+		num++;
+		int dx, dy;
+		int[] arrX = {-1,1,0,0};
+		int[] arrY = {0,0,-1,1};
+		
+		for(int i=0; i<4;i++) {
+			dx = x+arrX[i];
+			dy = y+arrY[i];
+			
+			if(dx>=0 && dx<m &&dy>=0 && dy<n&& visited[dx][dy]==0 && map[dx][dy]==0) {
+				DFS(dx,dy);
+			}
+		}
+	}
+}
