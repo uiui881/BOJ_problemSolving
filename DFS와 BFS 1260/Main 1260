@@ -1,0 +1,77 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static int[][] array;
+	public static boolean[] visited1;
+	public static boolean[] visited2;
+	public static int n;
+	public static int m;
+	
+	public static void main(String[] args)throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer stzr = null;
+		String str;
+		
+		stzr = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(stzr.nextToken());
+		m = Integer.parseInt(stzr.nextToken());
+		int start = Integer.parseInt(stzr.nextToken());
+		
+		array = new int[n][n];
+		visited1= new boolean[n];
+		visited2= new boolean[n];
+		
+		for(int i=0; i<m;i++) {
+			str = br.readLine();
+			stzr = new StringTokenizer(str);
+			
+			int row = Integer.parseInt(stzr.nextToken());
+			int col = Integer.parseInt(stzr.nextToken());
+			
+			array[row-1][col-1]=array[col-1][row-1]=1;
+		}
+		
+		DFS(start);
+		System.out.println();
+		BFS(start);
+	}
+	
+	public static void DFS(int a) {
+		visited1[a-1]=true;
+		System.out.print(a+" ");
+		
+		for(int i=0; i<n;i++) {
+			if(array[i][a-1]==1 && visited1[i]==false) {
+				DFS(i+1);
+			}
+		}
+		
+	}
+	
+	public static void BFS(int a) {
+		Queue<Integer> queue = new LinkedList<Integer>();
+		queue.add(a);
+		visited2[a-1]=true;
+		
+		while(!queue.isEmpty()) {
+			int tmp = queue.poll();
+			System.out.print(tmp+" ");
+			
+			for(int i=0; i<n;i++) {
+				if(array[tmp-1][i]==1 & !visited2[i]) {
+					visited2[i]=true;
+					queue.add(i+1);
+				}
+			}
+		}
+	}
+}
