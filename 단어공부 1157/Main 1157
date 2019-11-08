@@ -1,0 +1,41 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main{
+	
+	public static void main(String[] args) throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int[] array = new int[26];
+		
+		String str = br.readLine().toUpperCase();
+		
+		for(int i=0; i<str.length();i++) {
+			array[str.charAt(i)-'A']++;
+		}
+		
+		int maxIndex=0;
+		int max = array[0];
+		for(int i=0; i<array.length;i++) {
+			if(array[i]>max) {
+				max = array[i];
+				maxIndex=i;
+			}
+		}
+		
+		for(int i=0; i<array.length;i++) {
+			if(array[i]==max && maxIndex!=i) {
+				System.out.println("?");
+				return;
+			}
+		}
+		char alpha = (char) (maxIndex+'A');
+		System.out.println(alpha);
+	}
+}
+
