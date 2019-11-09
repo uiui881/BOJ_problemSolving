@@ -1,0 +1,31 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main{
+	
+	public static void main(String[] args) throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String room = br.readLine();
+		int[] cnt = new int[9];
+		
+		for(int i=0; i<room.length();i++) {
+			if(room.charAt(i)=='9') {
+				cnt[6]++;
+			}
+			else {
+				cnt[room.charAt(i)-'0']++;
+			}
+		}
+		
+		cnt[6]=(int) Math.ceil((float)cnt[6]/(float)2);
+		
+		int max = cnt[0];
+		for(int i=1; i<cnt.length;i++) {
+			max = cnt[i]>max ? cnt[i]: max;
+		}
+		
+		System.out.println(max);
+	}
+}
