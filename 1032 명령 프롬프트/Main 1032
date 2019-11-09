@@ -1,0 +1,41 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Main{
+	
+	public static void main(String[] args) throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int n = Integer.parseInt(br.readLine());
+		String[] str = new String[n];
+		
+		for(int i=0;i<n;i++) {
+			str[i]= br.readLine();
+		}
+		
+		boolean[] check = new boolean[str[0].length()];
+		
+		for(int i=0; i<str[0].length();i++) {
+			char standard = str[0].charAt(i);
+			for(int j=1;j<n;j++) {
+				if(standard != str[j].charAt(i)){
+					check[i]=true;
+					break;
+				}
+			}
+		}
+		
+		for(int i=0; i<str[0].length();i++) {
+			if(check[i]==false) {
+				bw.write(str[0].charAt(i));
+			}else {
+				bw.write(String.valueOf("?"));
+			}
+		}
+		bw.flush();
+	}
+}
