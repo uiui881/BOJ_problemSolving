@@ -1,0 +1,89 @@
+import java.io.*;
+import java.util.*;
+
+//2178번
+
+public class Main{
+	
+	static int n,m;
+	static int[][] map;
+	static boolean[][] visited;
+	static Queue<Dot> queue;
+	static LinkedList<Integer> list;
+	
+	static int[] arrX = {-1,1,0,0};
+	static int[] arrY = {0,0,-1,1};
+	static int cnt;
+	
+	public static class Dot{
+		int x;
+		int y;
+		int cnt;
+	
+		public Dot(int x, int y,int cnt) {
+			this.x = x;
+			this.y = y;
+			this.cnt = cnt;
+		}
+		
+		public int getX(){return this.x;}
+		public int getY(){return this.y;}
+		public int getCnt(){return this.cnt;}
+	}
+
+	public static void main(String[] args)throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		String str;
+		
+		n = Integer.parseInt(stzr.nextToken());
+		m = Integer.parseInt(stzr.nextToken());
+		
+		map = new int[n][m];
+		visited = new boolean[n][m];
+		queue = new LinkedList<Dot>(); 
+		list = new LinkedList<Integer>();
+		
+		for(int i=0; i<n;i++) {
+			str = br.readLine();
+			for(int j=0; j<m;j++) {
+				map[i][j]=str.charAt(j)-'0';
+			}
+		}//맵 완성
+		
+		BFS(new Dot(0,0,1));
+
+	}
+	
+	public static void BFS(Dot dot) {
+		
+		queue.offer(dot);
+		visited[dot.x][dot.y]=true;
+		
+	
+		while(!queue.isEmpty()) {
+			int dx; int dy;
+			
+			Dot dot1 = queue.poll();
+			int newx = dot1.x;
+			int newy = dot1.y;
+			
+			if(newx==n-1 && newy==m-1) {
+				System.out.println(dot1.getCnt());
+				return;
+			}
+			
+			for(int i=0; i<4;i++) {
+				dx = newx+arrX[i];
+				dy = newy+arrY[i];
+				
+				if(dx>=0 && dx<n && dy>=0 && dy<m && visited[dx][dy]==false && map[dx][dy]==1) {
+					visited[dx][dy]=true;
+					queue.offer(new Dot(dx, dy, dot1.getCnt()+1));
+					
+				}
+			}
+		}
+		
+	}
+}
