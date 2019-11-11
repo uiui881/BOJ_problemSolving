@@ -1,0 +1,95 @@
+import java.util.*;
+import java.io.*;
+
+//7576번 //DFS 느낌으로 풀려고 하지 말자!!!!!
+//토마토 들어있는 거 알면 바로바로 큐에 집어넣기!!!!!!!!!
+// 막 찾다가 토마토가 들어있었네!! 이런거 아니다..
+//처음부터 여기 토마토 있다!! 식으로 큐에다가 토마토 위치 넣고 시작
+
+
+public class Main{
+	
+	static int n,m,zeroCnt;
+	
+	static int[][] map;
+	static int[][] visited;
+	static Queue<Dot> queue;
+	static LinkedList<Integer> list;
+	
+	static int[] arrX = {-1,1,0,0};
+	static int[] arrY = {0,0,-1,1};
+	
+	public static void main(String[] args)throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		m = Integer.parseInt(stzr.nextToken());
+		n = Integer.parseInt(stzr.nextToken());
+		
+		map = new int[n][m];
+		visited = new int[n][m];
+		queue = new LinkedList<Dot>();
+		list = new LinkedList<Integer>();
+		
+		for(int i=0; i<n;i++) {
+				stzr = new StringTokenizer(br.readLine());
+			for(int j=0; j<m;j++) {
+				int u = Integer.parseInt(stzr.nextToken());
+				if(u==0) { zeroCnt++;}
+				else if(u==1) {queue.offer(new Dot(i,j,0));}
+				map[i][j]=u;
+			}
+		}//맵 완성
+		
+		BFS();
+		
+		if(zeroCnt==0) {
+			int max = list.get(0);
+			for(int i=1; i<list.size();i++) {
+				max = list.get(i)>max ? list.get(i) : max;
+			}
+			System.out.println(max);
+		}
+		else {
+			System.out.println("-1");
+		}
+	}
+	
+	public static void BFS() {
+		int x, y, dx, dy;
+		Dot dot1 = new Dot(0,0,0);
+		
+		while(!queue.isEmpty()) {
+			dot1 = queue.poll();
+			x = dot1.x;
+			y = dot1.y;
+			
+			for(int i=0; i<4;i++) {
+				dx = x +arrX[i];
+				dy = y +arrY[i];
+				
+				if(dx>=0 && dx<n && dy>=0 && dy<m && visited[dx][dy]==0 && map[dx][dy]==0) {
+					map[dx][dy]=1;
+					visited[dx][dy]=1;
+					zeroCnt--;
+					queue.offer(new Dot(dx, dy, dot1.getCnt()+1));
+				}
+			}
+		}
+		list.add(dot1.getCnt());
+	}
+	
+	public static class Dot{
+		int x; int y; int cnt;
+		
+		public Dot(int x, int y, int cnt){
+			this.x = x;
+			this.y = y;
+			this.cnt = cnt;
+		}
+		
+		public int getX() {return x;}
+		public int getY() {return y;}
+		public int getCnt() {return cnt;}
+	}
+}
