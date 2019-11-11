@@ -1,0 +1,104 @@
+import java.io.*;
+import java.util.*;
+
+public class Main{
+	
+	static int n, m, h, zeroCnt;
+	static int[][][] map;
+	static int[][][] visited;
+	
+	static int[] arrX = {-1,1,0,0,0,0};
+	static int[] arrY = {0,0,-1,1,0,0};
+	static int[] arrZ = {0,0,0,0,-1,1};
+	
+	static Queue<Dot> queue;
+	
+	public static void main(String[] args)throws IOException{
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		
+		m = Integer.parseInt(stzr.nextToken()); //세로
+		n = Integer.parseInt(stzr.nextToken()); //가로
+		h = Integer.parseInt(stzr.nextToken());
+		
+		map = new int[h][n][m]; 
+		visited = new int[h][n][m];
+		queue = new LinkedList<Dot>();
+		
+		for(int i=0;i<h;i++) { //높이
+			for(int j=0; j<n;j++) { //가로
+				stzr = new StringTokenizer(br.readLine());
+				for(int k=0; k<m;k++) { //세로
+					int u = Integer.parseInt(stzr.nextToken());
+					
+					if(u==1) {
+						queue.offer(new Dot(i,j,k,0));
+						visited[i][j][k]=1;
+					}
+					if(u==0) {
+						zeroCnt++;
+					}
+					map[i][j][k] = u; 
+				} 
+			}
+		}//map 완성
+		
+		BFS();
+		
+	}
+	
+	public static void BFS() {
+		
+		Dot dot = new Dot(0,0,0,0); 
+		int dx, dy, dz;
+		
+		while(!queue.isEmpty()) {
+			dot = queue.poll();
+			
+			for(int i=0; i<6;i++) {
+				dx = dot.x + arrX[i];
+				dy = dot.y + arrY[i];
+				dz = dot.z + arrZ[i];
+				
+				if(check(dz, dx, dy)&& visited[dz][dx][dy]==0 && map[dz][dx][dy]==0) {
+					map[dz][dx][dy]=1;
+					visited[dz][dx][dy]=1;
+					zeroCnt--;
+					queue.offer(new Dot(dz, dx, dy, dot.getCnt()+1));
+				}
+			}
+			
+		}if(zeroCnt==0) {
+			System.out.println(dot.getCnt());
+		}else {
+			System.out.println("-1");
+		}
+	}
+	
+	public static boolean check(int z, int x, int y) {
+		if(z>=0 && z<h && x>=0 && x<n && y>=0 && y<m ) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	
+	public static class Dot{
+		int x,y,z,cnt;
+		
+		public Dot(int z, int x, int y, int cnt) { //높이, 가로, 세로 순
+			this.x = x;
+			this.y = y;
+			this.z = z;
+			this.cnt = cnt;
+		}
+		
+		public int getX() {return x;}
+		public int getY() {return y;}
+		public int getZ() {return z;}
+		public int getCnt() {return cnt;}
+		
+	}
+}
