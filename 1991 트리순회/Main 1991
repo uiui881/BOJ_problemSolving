@@ -1,0 +1,118 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	
+	public static class TreeNode{
+		char data;
+		TreeNode left;
+		TreeNode right;
+		
+		public TreeNode(char data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+	
+	public static class Tree{
+		TreeNode root;
+		
+		public Tree(char data, char left, char right) {
+			if(data!='.') {
+				root = new TreeNode(data);
+			}
+			if(left!='.') {
+				root.left = new TreeNode(left);
+			}
+			if(right!='.') {
+				root.right = new TreeNode(right);
+			}
+		}
+		
+		public void add(char data, char left, char right) {
+			next(root.left, data, left, right);
+			next(root.right, data, left, right);
+		}
+		
+		public void next(TreeNode node, char data, char left, char right) {
+			
+			if(node == null) {
+				return;
+			}
+			
+			if(node.data == data) {
+				if(left!='.') {
+					node.left =  new TreeNode(left);
+				}
+				if(right!='.') {
+					node.right = new TreeNode(right);
+				}
+			}
+			
+			else {
+				next(node.left, data, left, right);
+				next(node.right, data, left, right);
+			}
+		}
+		
+		public void preOrder(TreeNode node) {
+			if(node!=null) {
+				System.out.print(node.data);
+			}
+			if(node.left!=null) {
+				preOrder(node.left);
+			}
+			if(node.right!=null) {
+				preOrder(node.right);
+			}
+		}
+		
+		public void inOrder(TreeNode node) {
+			if(node.left!=null) {
+				inOrder(node.left);
+			}
+			if(node!=null) {
+				System.out.print(node.data);
+			}
+			if(node.right!=null) {
+				inOrder(node.right);
+			}
+			
+		}
+		
+		public void postOrder(TreeNode node) {
+			if(node.left != null) {
+				postOrder(node.left);
+			}
+			if(node.right!= null) {
+				postOrder(node.right);
+			}
+			if(node != null) {
+				System.out.print(node.data);
+			}
+			
+		}
+	}
+
+	public static void main(String[] args)throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		char[] array = new char[3];
+		int n = Integer.parseInt(br.readLine());
+		
+		array = br.readLine().replaceAll(" ", "").toCharArray();
+		Tree tree = new Tree(array[0], array[1],array[2]);
+		
+		for(int i=0; i<n-1;i++) {
+			array = br.readLine().replaceAll(" ", "").toCharArray();
+			tree.add(array[0], array[1], array[2]);
+		}
+		
+		tree.preOrder(tree.root);
+		System.out.println();
+		tree.inOrder(tree.root);
+		System.out.println();
+		tree.postOrder(tree.root);
+	}
+}
