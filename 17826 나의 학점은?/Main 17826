@@ -1,0 +1,42 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+    
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer stzr = new StringTokenizer(br.readLine());
+    	int[] scores = new int[50];
+    	
+    	for(int i=0; i<scores.length;i++) {
+    		scores[i]=Integer.parseInt(stzr.nextToken());
+    	}
+    	
+    	int myScore = Integer.parseInt(br.readLine());
+    	int grade=0;
+    	
+    	for(int i=0; i<scores.length;i++) {
+    		if(scores[i]==myScore) {
+    			grade =i+1;
+    		}
+    	}
+    	
+    	if(grade>=1 && grade<=5) {
+    		System.out.println("A+");
+    	}else if(grade>=6 && grade<=15) {
+    		System.out.println("A0");
+    	}else if(grade>=16 && grade<=30) {
+    		System.out.println("B+");
+    	}else if(grade>=31 && grade<=35) {
+    		System.out.println("B0");
+    	}else if(grade>=36 && grade<=45) {
+    		System.out.println("C+");
+    	}else if(grade>=46 && grade<=48) {
+    		System.out.println("C0");
+    	}else{
+    		System.out.println("F");
+    	}
+    }
+}
