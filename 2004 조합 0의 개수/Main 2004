@@ -1,0 +1,27 @@
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	String[] str = br.readLine().split(" ");
+    	
+    	long n = Long.parseLong(str[0]);
+    	long m = Long.parseLong(str[1]);
+    	long resultFive = countNum(n,5)-countNum(n-m,5)-countNum(m,5);
+    	long resultTwo = countNum(n,2)-countNum(n-m,2)-countNum(m,2);
+    	long result=0;
+    	if(resultTwo >=0 && resultFive >=0) {
+    		result = resultTwo >= resultFive ? resultFive : resultTwo;
+    	}
+    	System.out.println(result);
+    }
+    
+    public static long countNum(long num, int given) {
+    	long count=0;
+    	for(long i=given; i<=num; i*=given) {
+    		count +=num/i;
+    	}
+    	return count;
+    }
+
+}
