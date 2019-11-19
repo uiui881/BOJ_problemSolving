@@ -1,0 +1,37 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+    
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	
+    	int m = Integer.parseInt(br.readLine());
+    	int n = Integer.parseInt(br.readLine());
+    	
+    	int start =(int) Math.ceil(Math.sqrt(m)); //올림함수
+    	//2.6이 나왔으면 3이고
+    	int end = (int)Math.floor(Math.sqrt(n)); // 내림함수
+    	//2.6 이 나왔으면 2
+    	int total=0;
+    	int min = n;
+    	int num=0;
+    	for(int i=start;i<=end;i++) {
+    		total += i*i;
+    		if(i*i<min) min= i*i;
+    		num++;
+    	}
+    	
+    	if(num==0) {
+    		System.out.println("-1");
+    	}
+    	if(num!=0) {
+    		System.out.println(total+"\n"+min);
+    	}
+    	
+    }
+}
