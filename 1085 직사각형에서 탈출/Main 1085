@@ -1,0 +1,25 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.util.StringTokenizer;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+    
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer stzr = new StringTokenizer(br.readLine());
+    	
+    	int x = Integer.parseInt(stzr.nextToken());
+    	int y = Integer.parseInt(stzr.nextToken());
+    	int n = Integer.parseInt(stzr.nextToken());
+    	int m = Integer.parseInt(stzr.nextToken());
+    	
+    	int minX = n-x > x-0 ? x-0 : n-x;
+    	int minY= m-y > y-0 ? y-0 : m-y;
+    	int min = minX > minY ? minY : minX;
+    	
+    	System.out.println(min);
+     	
+    }
+}
