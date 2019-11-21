@@ -1,0 +1,40 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	public static int cost, total;
+	public static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws IOException {
+    	
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	
+    	int T = Integer.parseInt(br.readLine());
+    	
+    	for(int i=0;i<T;i++) {
+    		int n = Integer.parseInt(br.readLine());
+    		int ans = getCount(n);
+    		sb.append(ans+"\n");
+    	}
+    	System.out.println(sb);
+    }
+    
+    public static int getCount(int n) {
+    	
+    	int[] array = new int[n+1];
+    	
+    	if(n==1) {array[1]=1; return array[1];}
+    	if(n==2) {array[2]=2; return array[2];}
+    	if(n==3) {array[3]=4; return array[3];} //이런 초기조건들 빼먹지 말자!!
+     	
+    	array[1]=1;
+    	array[2]=2;
+    	array[3]=4;
+    	for(int i=4;i<=n;i++) {
+    		array[i]=array[i-1]+array[i-2]+array[i-3];
+    	}
+    	return array[n];
+    }
+    
+}
