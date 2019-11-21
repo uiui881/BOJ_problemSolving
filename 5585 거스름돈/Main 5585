@@ -1,0 +1,30 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+
+	public static int change, total;
+	
+    public static void main(String[] args) throws IOException {
+    	
+    	Scanner sc = new Scanner(System.in);
+    	change = 1000-sc.nextInt();
+    	int[] array = {500, 100, 50, 10 ,5,1};
+    	
+    	for(int cost : array) {
+    		getChange(cost);
+    	}
+    	System.out.println(total);
+    }
+    
+    public static void getChange(int cost) {
+    	
+    	int num=0;
+    	if(change>=cost) {
+    		num = change/cost;
+    		total+= num;
+    		change = change-(num*cost);
+    	}
+    }
+}
+    	
