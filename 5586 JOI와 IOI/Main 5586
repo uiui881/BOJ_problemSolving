@@ -1,0 +1,31 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+	
+    public static void main(String[] args) throws IOException {
+    	
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	String str = br.readLine();
+    	
+    	System.out.println(check(str,"JOI")+"\n"+check(str,"IOI"));
+    }
+    
+    public static int check(String str, String target) {
+    	int count=0;
+    	
+    	for(int i=0; i<=str.length()-3;i++) {
+    		if(str.charAt(i)==target.charAt(0)) {
+    			if(str.charAt(i+1)==target.charAt(1)) {
+    				if(str.charAt(i+2)==target.charAt(2)) {
+        				count++;
+        			}
+    			}
+    		}
+    	}
+    	
+    	return count;
+    }
+   
+}
