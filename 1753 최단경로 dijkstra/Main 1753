@@ -1,0 +1,99 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static class Node implements Comparable{
+		int index;
+		int distance;
+		
+		Node(int index, int distance){
+			this.index = index;
+			this.distance = distance;
+		}
+
+		//이 함수는 priorityQueue에서 필요로 함
+		public int compareTo(Object obj) {
+			Node n =(Node)obj;
+			return this.distance- n.distance;
+		}
+	}
+
+	public static int[] visited;
+	public static int[] distance;
+	public static int V, E, start;
+	
+	public static ArrayList<Node>[] list; // ArrayList 배열
+	
+    public static void main(String[] args) throws IOException {
+    	
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer stzr = new StringTokenizer(br.readLine());
+    	
+    	V = Integer.parseInt(stzr.nextToken());
+    	E = Integer.parseInt(stzr.nextToken());
+    	start = Integer.parseInt(br.readLine());
+    	
+    	list = new ArrayList[V+1];
+    	visited = new int[V+1]; //1부터 시작 0은 제외
+    	distance = new int[V+1];
+    	
+    	for(int i=1;i<=V;i++) { //arrayList배열에다가 ArrayList들 만들어주기
+    		list[i]= new ArrayList<Node>();
+    	}
+    	while(E-->0) {
+    		stzr = new StringTokenizer(br.readLine());
+    		int x = Integer.parseInt(stzr.nextToken());
+    		int y = Integer.parseInt(stzr.nextToken());
+    		int k = Integer.parseInt(stzr.nextToken());
+    		
+    		list[x].add(new Node(y,k)); 
+    		
+    	}//맵 완성
+    	
+    	for(int i=0; i<=V; i++) {
+    		distance[i] = Integer.MAX_VALUE;
+    	} //distance 배열 초기화
+    	
+    	Dijkstra(start); 
+    	
+    	for(int i=1; i<=V;i++) {
+    		
+    		if(distance[i]>1000000000) {
+    			System.out.println("INF");
+    			continue;
+    		}
+    			
+    		System.out.println(distance[i]);
+    	}
+    }
+    
+    public static void Dijkstra(int start){
+    	
+    	distance[start]=0;
+    	PriorityQueue<Node> queue = new PriorityQueue<Node>();
+    	
+    	queue.add(new Node(start, distance[start]));
+    	
+    	while(!queue.isEmpty()) {
+    		int index = queue.poll().index;
+    		//최소큐를 뽑은 것이다..
+    		if(visited[index]==1) continue;
+    		
+    		visited[index]=1;
+    		for(Node node : list[index]) {
+    			
+    				if(distance[node.index]> distance[index]+node.distance) {
+    					distance[node.index]= distance[index]+node.distance;
+    					queue.add(new Node(node.index, distance[node.index]));
+    				}
+    		}	
+    		}	
+    	}
+    }
