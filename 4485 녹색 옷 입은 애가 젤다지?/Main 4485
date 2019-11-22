@@ -1,0 +1,87 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static int[][] map;
+	public static int[][] distance;
+	public static int[] arrayX = {-1,1,0,0};
+	public static int[] arrayY = {0,0,-1,1};
+	public static int n,num;
+	
+	public static void main(String[] args)throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		while(true) {
+		n = Integer.parseInt(br.readLine());
+		
+		if(n==0) {
+			break;
+		}
+		num++;
+		map = new int[n][n];
+		distance = new int[n][n];
+		
+		for(int i=0; i<n;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			for(int j=0; j<n;j++) {
+				map[i][j]= Integer.parseInt(stzr.nextToken());
+				distance[i][j]=Integer.MAX_VALUE;
+			}
+		}//맵완성 
+		Dijkstra();
+		sb.append("Problem "+num+": "+distance[n-1][n-1]+"\n");
+		
+		}
+		System.out.println(sb);	
+	}
+	
+	public static void Dijkstra() {
+		distance[0][0]=map[0][0];
+		PriorityQueue<Node> queue = new PriorityQueue<Node>();
+		queue.offer(new Node(0,0,distance[0][0]));
+		
+		while(!queue.isEmpty()) {
+			Node node = queue.poll();
+			int x = node.x;
+			int y = node.y;
+			int cost = node.cost;
+			
+			int dx, dy;
+			for(int i=0;i<4;i++) {
+				dx = x+arrayX[i];
+				dy = y+arrayY[i];
+				
+				if(dx>=0 && dx<n && dy>=0 && dy<n) {
+					if(distance[dx][dy]>distance[x][y]+map[dx][dy]) {
+						distance[dx][dy]= distance[x][y]+map[dx][dy];
+						queue.offer(new Node(dx, dy, distance[dx][dy]));
+					}
+				}
+			}
+		}
+	}
+	
+	public static class Node implements Comparable{
+		int x;
+		int y;
+		int cost;
+		
+		Node(int x, int y, int cost){
+			this.x =x;
+			this.y =y;
+			this.cost =cost;
+		}
+
+		@Override
+		public int compareTo(Object o) {
+			Node n = (Node) o;
+			return this.cost-n.cost;
+		}
+		
+	}
+}  	
