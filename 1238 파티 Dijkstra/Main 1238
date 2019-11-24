@@ -1,0 +1,113 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+class Main {
+	public static class Node implements Comparable{
+		int index;
+		int cost;
+		
+		Node(int index, int cost){
+			this.index = index;
+			this.cost = cost;
+		}
+
+		public int compareTo(Object o) {
+			Node n = (Node) o;
+			return this.cost - n.cost;
+		}	
+	}
+	
+	public static ArrayList<ArrayList<Node>> list;
+	public static int[] distance, distance1, distance2;
+	public static int n,m,x;
+	
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer stzr = new StringTokenizer(br.readLine());
+        
+        n = Integer.parseInt(stzr.nextToken());
+        m = Integer.parseInt(stzr.nextToken());
+        x = Integer.parseInt(stzr.nextToken());
+        
+        distance1 = new int[n+1];
+        distance2 = new int[n+1];
+        distance = new int[n+1];
+        list = new ArrayList<ArrayList<Node>>();
+        
+        for(int i=0; i<=n;i++) {
+        	list.add(new ArrayList<Node>());
+        	distance1[i]= Integer.MAX_VALUE;
+        	distance2[i]= Integer.MAX_VALUE;
+        }
+        
+        for(int i=0; i<m;i++) {
+        	stzr = new StringTokenizer(br.readLine());
+        	int start = Integer.parseInt(stzr.nextToken());
+        	int end = Integer.parseInt(stzr.nextToken());
+        	int cost = Integer.parseInt(stzr.nextToken());
+        	
+        	list.get(start).add(new Node(end, cost));
+        } //맵완성
+
+        	 Dijkstra(x,distance1); //2에서 가는 거
+        	
+        	 
+        	 //i에서 2로 가기위한 애
+        	 for(int i=1;i<=n;i++) {
+        		 if(i!=x) {
+        			 distance2[i]= Dijkstra2(i,distance);
+        		 }
+        		 if(i==x) {
+        			 distance2[x]=0;
+        		 }
+        	 }
+        	 
+        	for(int i=1;i<=n;i++) {
+        		distance1[i]+=distance2[i];
+        	 }
+        	 
+        System.out.println(findMax(distance1));
+        //그리고 최대값 찾기 하자
+       
+    }
+    
+    public static int findMax(int[] distance) {
+    	int max = distance[1];
+    	
+    	for(int i=1;i<distance.length;i++) {
+    		max = distance[i]> max ? distance[i]: max;
+    	}
+    	return max;
+    }
+
+ public static int Dijkstra2(int start, int[] distance){
+	 
+	 for(int i=0; i<=n;i++) {
+     	distance[i]= Integer.MAX_VALUE;
+     }
+	 	Dijkstra(start,distance);
+    		return distance[x];
+    }
+    public static void Dijkstra(int start,int[] distance){
+    	
+    	distance[start] =0;
+    	PriorityQueue<Node> queue = new PriorityQueue<Node>();
+    	
+    	queue.add(new Node(start, 0));
+    	
+    	while(!queue.isEmpty()) {
+    		int index = queue.poll().index;
+    		
+    		for(Node node : list.get(index)) {
+    			if(distance[node.index]> distance[index]+node.cost) {
+    				distance[node.index] = distance[index]+node.cost;
+    				queue.add(new Node(node.index, node.cost));
+    			}
+    			}
+    		}    	
+    }
+}  	
