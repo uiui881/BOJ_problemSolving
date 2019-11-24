@@ -1,0 +1,77 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+class Main {
+
+	public static int[][] map;
+	public static int[][] distance;
+	public static int[] arrayX= {-1,1,0,0};
+	public static int[] arrayY= {0,0,-1,1};
+	public static int n,m;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stzr = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        
+        n = Integer.parseInt(stzr.nextToken()); //세로 4
+        m = Integer.parseInt(stzr.nextToken()); //가로 2
+        
+        map = new int[m][n];//2//4
+        distance = new int[m][n];
+        
+        for(int i=0; i<m;i++) {
+        	String str = br.readLine();
+        	for(int j=0; j<str.length();j++) {
+        		map[i][j]= str.charAt(j)-'0';///이거 제발 까먹지 말자!!!!
+        	}
+        }//맵완성
+        
+        for(int i=0;i<m;i++) {
+        	for(int j=0;j<n;j++) {
+        		distance[i][j]=Integer.MAX_VALUE;
+        	}
+        } //맵 
+        
+        Dijkstra(new Node(0,0));
+     
+        System.out.println(distance[m-1][n-1]);
+    }
+    
+    public static void Dijkstra(Node node) {
+    	
+    	Queue<Node> queue = new LinkedList<Node>();
+    	distance[node.x][node.y]=0;
+    	queue.add(node);
+    	
+    	while(!queue.isEmpty()) {
+    		Node noode = queue.poll();
+    		int x = noode.x;
+    		int y = noode.y;
+    		int dx, dy;
+    		
+    		for(int i=0;i<4;i++) {
+    			dx = x+arrayX[i];
+    			dy = y+arrayY[i];
+    			
+    			if(dx>=0 && dx<m && dy>=0 && dy<n) {
+    				if(distance[dx][dy]>distance[x][y]+map[dx][dy]) {
+    					distance[dx][dy] = distance[x][y]+map[dx][dy];
+    					queue.add(new Node(dx,dy));
+    				}
+    			}
+    		}
+    	}
+    }
+    
+    public static class Node{
+    	int x; int y;
+    	
+    	Node(int x, int y){
+    		this.x =x;
+    		this.y =y;
+    	}
+    }
+}  	
