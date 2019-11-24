@@ -1,0 +1,80 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+class Main {
+
+	public static ArrayList<ArrayList<Node>> arrayList;
+	public static int[] distance;
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stzr;
+        
+        int n = Integer.parseInt(br.readLine());
+        int m = Integer.parseInt(br.readLine());
+        
+        distance = new int[n+1];
+        arrayList = new ArrayList<ArrayList<Node>>();
+        
+        for(int i=0;i<=n;i++) {
+        	arrayList.add(new ArrayList<Node>());
+        }
+        for(int i=0; i<m;i++) {
+        	stzr = new StringTokenizer(br.readLine());
+        	int x = Integer.parseInt(stzr.nextToken());
+        	int y = Integer.parseInt(stzr.nextToken());
+        	int cost = Integer.parseInt(stzr.nextToken());
+        	
+        	arrayList.get(x).add(new Node(y,cost));
+        } //맵 완성
+        
+        stzr = new StringTokenizer(br.readLine());
+        int start = Integer.parseInt(stzr.nextToken());
+        int end = Integer.parseInt(stzr.nextToken());
+        
+        for(int i=1;i<=n;i++) {
+        	distance[i]= Integer.MAX_VALUE;
+        }
+        Dijkstra(start);
+        
+        System.out.println(distance[end]);
+    }
+    
+    public static void Dijkstra(int start) {
+    	distance[start]=0;
+    	
+    	PriorityQueue<Node> queue = new PriorityQueue<Node>();
+    	
+    	queue.add(new Node(start,0));
+    	
+    	while(!queue.isEmpty()) {
+    		int index = queue.poll().index;
+    		
+    		for(Node node : arrayList.get(index)) {
+    			if(distance[node.index]>distance[index]+node.cost) {
+    				distance[node.index]= distance[index]+node.cost;
+    				queue.add(new Node(node.index, distance[node.index]));
+    			}
+    		}
+    	}
+    }
+    
+    public static class Node implements Comparable{
+    	int index;
+    	int cost;
+    	
+    	Node(int index, int cost){
+    		this.index = index;
+    		this.cost = cost;
+    	}
+
+		@Override
+		public int compareTo(Object o) {
+			Node n = (Node) o;
+			return this.cost-n.cost;
+		}
+    }
+}  	
