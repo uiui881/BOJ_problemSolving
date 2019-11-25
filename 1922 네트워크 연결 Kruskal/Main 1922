@@ -1,0 +1,91 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+class Main {
+  //최소스패닝 트리, 크루스칼 알고리즘
+	public static PriorityQueue<Node> queue = new PriorityQueue<Node>();
+	public static int[] parent;
+	public static int total,num,n,m;
+	public static void main(String[] args) throws Exception {
+        
+       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+       StringTokenizer stzr;
+       StringBuilder sb = new StringBuilder();
+       
+       n = Integer.parseInt(br.readLine());
+       m = Integer.parseInt(br.readLine());
+       int start, end, cost;
+       
+       parent = new int[n+1];
+       
+       for(int i=0;i<m;i++) {
+    	   stzr = new StringTokenizer(br.readLine());
+    	   start = Integer.parseInt(stzr.nextToken());
+    	   end = Integer.parseInt(stzr.nextToken());
+    	   cost = Integer.parseInt(stzr.nextToken());
+    	   
+    	   queue.add(new Node(start, end, cost));
+       }
+       
+       for(int i=1;i<=n;i++) {
+    	   parent[i]=i;
+       }//parent초기화하기
+       
+      Kruskal();
+      System.out.println(total);
+    }
+	public static void Kruskal() {
+		//우선순위 큐에서 일단 노드를 뽑아
+		//노드에서 disjoint set체크를 하기
+		//find()와 union()
+		//만일 같으면 pass!! 다르면 더해주기!!
+		while(!queue.isEmpty()) {
+			Node node = queue.poll();
+			int one = node.x;
+			int two = node.y;
+			
+			if(num==n-1) { //연결된 선이 n-1개면 스탑
+				break;
+			}
+			if(find(one)!=find(two)) { 
+				union(one, two);
+				total+= node.cost;
+				num++;
+			} //합치기!!
+		}
+	}
+	public static int find(int x) {
+		if(x ==parent[x]) return x;
+		
+		else {
+			parent[x] =find(parent[x]);
+			return parent[x];
+		}
+	}
+	public static void union(int a, int b) {
+		int aRoot = find(a);
+		int bRoot = find(b);
+		
+		if(aRoot!=bRoot) {
+			parent[aRoot]=b;
+		}
+	}
+	public static class Node implements Comparable{
+		int x;
+		int y;
+		int cost;
+
+		Node(int x, int y, int cost){
+			this.x=x;
+			this.y=y;
+			this.cost =cost;
+		}
+		
+		public int compareTo(Object args) {
+			Node node=(Node) args;
+			return this.cost- node.cost;
+		}
+	}
+} 
