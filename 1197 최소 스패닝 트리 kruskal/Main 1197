@@ -1,0 +1,83 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+class Main {
+	public static int n,m, total,num;
+	public static int[] parent;
+	public static PriorityQueue<Node> queue = new PriorityQueue<Node>();
+	public static void main(String[] args) throws Exception {
+        
+       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+       StringTokenizer stzr = new StringTokenizer(br.readLine());
+       
+       n = Integer.parseInt(stzr.nextToken());
+       m = Integer.parseInt(stzr.nextToken());
+       parent = new int[n+1];
+       
+       for(int i=0;i<m;i++) {
+    	   stzr = new StringTokenizer(br.readLine());
+    	   int start = Integer.parseInt(stzr.nextToken());
+    	   int end = Integer.parseInt(stzr.nextToken());
+    	   int cost = Integer.parseInt(stzr.nextToken());
+    	   
+    	   queue.offer(new Node(start, end, cost));
+       }
+       
+       for(int i=0;i<n;i++) {
+    	   parent[i]=i;
+       }
+       Kruskal();
+       
+       System.out.println(total);
+	}
+	
+	public static void Kruskal() {
+		while(!queue.isEmpty()) {
+			Node noode = queue.poll();
+			int x = noode.x;
+			int y = noode.y;
+			int cost = noode.cost;
+			if(num==n-1) break;
+			
+			if(find(x)!=find(y)) {
+				union(x,y);
+				total+=cost;
+				num++;
+			}
+		}
+	}
+	public static int find(int x) {
+		
+		if(x == parent[x]) return x;
+		
+		parent[x]= find(parent[x]);
+		return parent[x];
+	}
+	public static void union(int a, int b) {
+		int aRoot = find(a);
+		int bRoot = find(b);
+		
+		if(aRoot!=bRoot) {
+			parent[aRoot]=b;
+		}
+	}
+	
+	public static class Node implements Comparable{
+		int x;
+		int y;
+		int cost;
+		
+		Node(int x, int y, int cost){
+			this.x =x;
+			this.y =y;
+			this.cost = cost;
+		}
+		
+		public int compareTo(Object args) { //오름차순 기준이다
+			Node n = (Node) args;
+			return this.cost-n.cost;
+		}
+	}
+} 
