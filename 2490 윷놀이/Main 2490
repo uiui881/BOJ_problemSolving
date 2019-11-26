@@ -1,0 +1,32 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main{
+	
+	public static void main(String[] args)throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr;
+		
+		int[] cnt = new int[3];
+		for(int i=0; i<3;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			for(int j=0; j<4;j++) {
+				if(Integer.parseInt(stzr.nextToken())==0) {
+					cnt[i]++;
+				}
+			}
+		}
+		
+		for(int i=0; i<3;i++) {
+			if(cnt[i]==0)System.out.println("E");
+			if(cnt[i]==1)System.out.println("A");
+			if(cnt[i]==2)System.out.println("B");
+			if(cnt[i]==3)System.out.println("C");
+			if(cnt[i]==4)System.out.println("D");
+		}
+		
+	}
+}
