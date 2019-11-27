@@ -1,0 +1,60 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main {
+
+	public static int[] parent;
+	public static void main(String[] args) throws Exception {
+        
+       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+       StringTokenizer stzr = new StringTokenizer(br.readLine());
+       StringBuilder sb = new StringBuilder();
+       int n = Integer.parseInt(stzr.nextToken());
+       int m = Integer.parseInt(stzr.nextToken()); 
+       
+       parent = new int[n+1];
+       
+       for(int i=0;i<=n;i++) {
+    	   parent[i]=i;
+       }
+       
+       for(int i=0;i<m;i++) {
+    	   stzr = new StringTokenizer(br.readLine());
+    	   
+    	   int compute = Integer.parseInt(stzr.nextToken());
+    	   int x = Integer.parseInt(stzr.nextToken());
+    	   int y = Integer.parseInt(stzr.nextToken());
+    	   switch(compute) {
+    	   
+    	   case 0:
+    		   union(x,y);
+    		   break;
+    	   case 1:
+    		   if(find(x)==find(y)) {
+    			   sb.append("YES\n");
+    		   }
+    		   else {
+    			  sb.append("NO\n");
+    		   }
+    		   break;
+    	   }
+       }
+      System.out.println(sb);
+	}
+	
+	public static int find(int x) {
+		if(x==parent[x]) return x;
+		
+		return parent[x] = find(parent[x]);
+	}
+	
+	public static void union(int x, int y) {
+		int xRoot = find(x);
+		int yRoot = find(y);
+		if(xRoot!=yRoot) { //이거 꼭 하기!! 이거 한거랑 안한거랑 시간차이 꽤 남
+			parent[xRoot]=y; // 얘도 걍 y로 넣자
+		}
+		
+	}
+} 
