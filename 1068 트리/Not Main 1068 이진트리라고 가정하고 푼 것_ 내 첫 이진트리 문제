@@ -1,0 +1,85 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main {
+	//처음에는 이진트리라고 생각해서 틀림
+	//그러나 처음 이진트리 문제 푼 거 치고는 잘풀었다고
+	//그러니까 기록으로 남긴다..
+	//내 첫 이진트리 문제
+	public static int numm;
+	public static void main(String[] args) throws Exception {
+        
+       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+       int n = Integer.parseInt(br.readLine());
+       TreeNode[] array = new TreeNode[n];
+       
+       StringTokenizer stzr = new StringTokenizer(br.readLine());
+       for(int i=0; i<n;i++) {
+    	   array[i] = new TreeNode(i);
+       }//노드 5개 만들기 성공
+      
+       for(int i=0; i<n;i++) {
+    	   int num = Integer.parseInt(stzr.nextToken());
+    	   
+    	   if(num==-1) continue; //루트 노드니까 패스
+    	   
+    	   if(array[num].left==null) {
+    		   array[num].left= array[i];
+    	   }else {
+    		   array[num].right = array[i];
+    	   }//달아줬다 왼쪽 비어있으면 왼쪽 먼저
+       } //트리 만들었다!!!
+       
+       int removeNum = Integer.parseInt(br.readLine());
+       
+       if(removeNum==0) {
+    	   System.out.println("0");
+    	   return;
+       }else {
+    	   removeNode(removeNum, array);
+       }
+       checkLeafNode(array, 0);
+       System.out.println(numm);
+      
+	}
+	public static void checkLeafNode(TreeNode[] array, int n) {
+		// 트리를 타고타고 들어가서..찾아야하겠구나
+		if(array[n].left==null && array[n].right==null) {
+			numm++;
+		}else {
+			if(array[n].left!=null) {
+				checkLeafNode(array, array[n].left.data);
+			}
+			if(array[n].right!=null) {
+				checkLeafNode(array, array[n].right.data);
+			}
+		}
+	}
+	public static void removeNode(int removeNode, TreeNode[] array) {
+		
+		for(int i=0;i<array.length;i++) {
+			if(array[i].left !=null && array[i].left.data ==removeNode) {
+				array[i].left =null;
+				break;
+			}
+			if(array[i].right !=null &&array[i].right.data==removeNode ) {
+				array[i].right=null;
+				break;
+			}
+		}
+	}
+	
+	public static class TreeNode{
+		int data;
+		TreeNode left;
+		TreeNode right;
+		
+		TreeNode(int data){
+		 this.data = data;
+		 this.left = null;
+		 this.right = null;
+		}
+	}
+	
+} 
