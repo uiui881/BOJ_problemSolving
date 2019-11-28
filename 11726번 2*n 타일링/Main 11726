@@ -1,0 +1,32 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+class Main {
+	public static int[] array;
+	public static void main(String[] args) throws Exception {
+        
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		array = new int[n+1];
+		fib(n);
+		System.out.println(array[n]);
+	}
+	
+	public static void fib(int n) {
+		if(n==1) {
+			array[1]= 1;
+		}
+		if(n==2) {
+			array[2]=2;
+		}
+		if(n>2) {
+			array[1]= 1;
+			array[2]=2;
+				for(int i=3;i<=n;i++) {
+					array[i]= array[i-1]%10007+array[i-2]%10007;
+					//중간에 2의 31승-1을 넘을 수 있어서 %10007을 미리 해준다
+					//(a+b)%c = a%c +b%c; 
+				}
+		}
+	}
+}
