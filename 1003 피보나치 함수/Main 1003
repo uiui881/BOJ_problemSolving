@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+class Main {
+	
+	public static Node[] countArray;
+	public static void main(String[] args) throws Exception {
+        
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		int n = Integer.parseInt(br.readLine());
+      
+		for(int i=0;i<n;i++) {//반복 횟수
+			
+			int num = Integer.parseInt(br.readLine());
+			countArray = new Node[num+1]; //배열 
+		
+			for(int j=0;j<=num;j++) {
+				countArray[j] = new Node(0,0);//객체 만들어주기
+			}
+			fib(num);
+			sb.append(countArray[num].zeroCount+" "+countArray[num].oneCount+"\n");
+		}
+	System.out.println(sb);
+	}
+
+	public static void fib(int x) {//노드 반환
+		if(x==0) {
+			countArray[0].zeroCount = 1;
+			countArray[0].oneCount = 0;
+		}
+		else if(x ==1) {
+			countArray[1].zeroCount =0;
+			countArray[1].oneCount =1;
+		}
+		else {
+			countArray[0].zeroCount = 1;
+			countArray[0].oneCount = 0;
+			countArray[1].zeroCount =0;
+			countArray[1].oneCount =1;
+			
+			for(int i=2;i<=x;i++) {
+				countArray[i].zeroCount=countArray[i-1].zeroCount+countArray[i-2].zeroCount;
+				countArray[i].oneCount=countArray[i-1].oneCount+countArray[i-2].oneCount;	
+			}
+			
+		}
+	}
+	
+	public static class Node{
+		int zeroCount;
+		int oneCount;
+		
+		Node(int zeroCount, int oneCount){
+			this.zeroCount = zeroCount;
+			this.oneCount = oneCount;
+		}
+	}
+}
