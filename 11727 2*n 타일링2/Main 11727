@@ -1,0 +1,24 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+class Main {
+	
+	public static void main(String[] args) throws Exception {
+        
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		
+		long[] array = new long[1001];
+		
+		array[1]=1;
+		array[2]=3;
+		
+		for(int i=3;i<=n;i++) {
+			array[i]=( array[i-1]+ 2*array[i-2])%10007;
+			//점화식은 무조건 식 찾기
+			//n-1에서 n을 만들려면..??n-2에서 n을 만든다면?
+		}
+		
+		System.out.println(array[n]);
+	}
+}
