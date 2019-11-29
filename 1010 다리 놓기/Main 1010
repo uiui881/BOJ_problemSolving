@@ -1,0 +1,36 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.util.StringTokenizer;
+
+class Main {
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		int T = Integer.parseInt(br.readLine());
+	
+		while(T-- >0) {
+			stzr = new StringTokenizer(br.readLine());
+			
+			int n = Integer.parseInt(stzr.nextToken());
+			int m = Integer.parseInt(stzr.nextToken());
+			BigInteger total= BigInteger.ONE;
+			
+			if(n>m-n) { n=m-n; }
+			
+			for(int i=1;i<=n;i++) {
+				total=total.multiply(BigInteger.valueOf(m));
+				m--;
+			}
+			for(int i=1;i<=n;i++) {
+				total=total.divide(BigInteger.valueOf(i));
+			}
+			sb.append(total+"\n");
+		}
+		
+		System.out.println(sb);
+	}
+}
