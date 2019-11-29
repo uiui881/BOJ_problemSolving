@@ -1,0 +1,41 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main {
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		int[] array = new int[n];
+		int[] hap = new int[n];
+	
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		for(int i=0;i<n;i++) {
+			array[i] = Integer.parseInt(stzr.nextToken());
+		}
+		//배열 완성
+		hap[0]= array[0];
+		for(int i=1;i<n;i++) {
+			if(array[i]>=hap[i-1]+array[i]) {
+				hap[i]=array[i];
+			}
+			else {
+				hap[i] = hap[i-1]+array[i];
+			}
+		}
+		
+		int max = hap[0];
+		for(int i=1;i<n;i++) {
+			max = hap[i]>max ? hap[i] : max;
+		}
+		
+		System.out.println(max);
+}}
+		//연속합의 최대값을 구하는 거니까
+		//끊기면 안됨
+		//처음부터 계속 더하다가 아 지금부터는 그냥 나부터 더하는 게 낫겠는데 싶으면
+		//앞에 손절하고 자기부터 계산
+		//즉 앞에 계산한 값이 자기보다 크면 계속 안고 가고
+		//아니면 자기부터 계산
+		//연속합이니까 가능한 이야기
