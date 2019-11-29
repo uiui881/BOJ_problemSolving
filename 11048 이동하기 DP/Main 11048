@@ -1,0 +1,58 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main {
+	public static int[][] array;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr= new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(stzr.nextToken());
+		int m = Integer.parseInt(stzr.nextToken());
+		array = new int[n][m];
+			
+		for(int i=0;i<n;i++) {
+			stzr= new StringTokenizer(br.readLine());
+			for(int j=0;j<m;j++) {
+				array[i][j] = Integer.parseInt(stzr.nextToken());
+			}
+		}// array완성
+		
+		//array갱신하기
+		//그 위에서 온 값과 왼쪽 옆에서 온 값, 대각선에서 온 값중 최댓값을 내꺼랑 더하고 다시 저장한다.
+		
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				array[i][j]=sol(i-1,j-1,i,j);
+			}
+		}
+		System.out.println(array[n-1][m-1]);
+	}
+	public static int max(int a, int b, int c, int d) {
+		int[] compare = new int[3];
+		compare[0] = array[a][d];
+		compare[1] = array[a][b];
+		compare[2] = array[c][b];
+		
+		int num = compare[0];
+		
+		for(int i=1;i<3;i++) {
+			num = compare[i]>num ? compare[i]:num;
+		}
+		return num;
+	}
+	public static int sol(int a, int b, int c, int d) {
+		if(a>=0 && b>=0) {
+			return max(a,b,c,d)+array[c][d];
+		}
+		else if(a<0 && b>=0) {
+			return array[c][b]+array[c][d];
+		}
+		else if(a>=0 && b<0) {
+			return array[a][d]+array[c][d];
+		}
+			return array[c][d];
+	}
+}
