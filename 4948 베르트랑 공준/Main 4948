@@ -1,0 +1,38 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main {
+	public static boolean[] numbers;
+	public static StringBuilder sb = new StringBuilder();
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		while(true) {
+			int n = Integer.parseInt(br.readLine());
+			if(n==0) break;
+			int num=0;
+			numbers = new boolean[2*n+1];
+			Eratos(2*n);
+			for(int i=n+1;i<=2*n;i++) {
+				if(numbers[i]==false) {
+					num++;
+				}
+			}
+			sb.append(num+"\n");
+		}
+		System.out.println(sb);
+	}
+	
+	public static void Eratos(int n) {
+		//일단 x*x<=2*n 인 애를 찾아야함
+		//그리고...2 부터 n까지 배수인 애 죄다 지우기
+		int x = (int) Math.sqrt(n);//내림
+		for(int i=2;i<=x;i++) {
+			if(numbers[i]==true) continue;
+			for(int j=i*2;j<=n;j+=i) {
+				numbers[j]=true;//지워지는 애들을 true라고 해주기
+			}
+		}
+	}
+}
