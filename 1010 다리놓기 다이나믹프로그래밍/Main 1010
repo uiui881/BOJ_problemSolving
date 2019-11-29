@@ -1,0 +1,38 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main {
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		int T = Integer.parseInt(br.readLine());
+	
+		while(T-- >0) {
+			stzr = new StringTokenizer(br.readLine());
+			
+			int n = Integer.parseInt(stzr.nextToken());
+			int m = Integer.parseInt(stzr.nextToken());
+			
+			int[][] array = new int[m+1][m+1];
+			
+			for(int i=1;i<=m;i++) {
+				array[1][i]= i;
+				array[i][i]=1;
+			}
+			
+			for(int i=2;i<=m;i++) {
+				for(int j=i+1;j<=m;j++) {
+					array[i][j]= array[i][j-1]+array[i-1][j-1];
+				}
+			}
+
+			sb.append(array[n][m]+"\n");
+		}
+		
+		System.out.println(sb);
+	}
+}
