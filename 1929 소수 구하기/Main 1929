@@ -1,0 +1,35 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+class Main {
+	
+	public static boolean[] array;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		String[] str = br.readLine().split(" ");
+		int m = Integer.parseInt(str[0]);
+		int n = Integer.parseInt(str[1]);
+		array = new boolean[n+1];
+		
+		Eratos(n);
+		
+		for(int i=m;i<=n;i++) {
+			if(array[i]==false) {
+				sb.append(i+"\n");
+			}
+		}
+		
+		System.out.println(sb);
+	}
+	public static void Eratos(int n) {
+		int x = (int) Math.sqrt(n);
+	
+		array[1]=true;
+		for(int i=2;i<=x;i++) {
+			for(int j=i*2;j<=n;j+=i) {
+				array[j]=true;
+			}
+		}
+	}
+}
