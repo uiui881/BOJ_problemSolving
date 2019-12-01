@@ -1,0 +1,25 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main {
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		int T = Integer.parseInt(br.readLine());
+		while(T-->0) {
+			int price = Integer.parseInt(br.readLine());
+			int n = Integer.parseInt(br.readLine());
+			
+			for(int i=0;i<n;i++) {
+				String[] str = br.readLine().split(" ");
+				price += Integer.parseInt(str[0])* Integer.parseInt(str[1]);
+			}
+			sb.append(price+"\n");
+		}
+		System.out.println(sb);
+	}
+}
