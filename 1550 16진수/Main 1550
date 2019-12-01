@@ -1,0 +1,14 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+class Main {
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.println(Integer.parseInt(br.readLine(),16));
+		//br.readLine이 16진수란 소리
+		//10진수를 16진수로
+		//Integer.toHexString(i)
+	}
+}
