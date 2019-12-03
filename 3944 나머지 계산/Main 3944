@@ -1,0 +1,26 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		int n = Integer.parseInt(br.readLine());
+		
+		for(int i=0;i<n;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			int B = Integer.parseInt(stzr.nextToken());
+			int total=0;
+			
+			String str = stzr.nextToken();
+			
+			for(int a=0;a<str.length();a++) {
+				total+= str.charAt(a)-'0';
+			}
+			sb.append(total%(B-1)+"\n");
+		}
+		System.out.println(sb);
+	}
+}
