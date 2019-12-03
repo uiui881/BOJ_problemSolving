@@ -1,0 +1,51 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static int[] parentArray;
+	public static int[] childNumArray;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr;
+		int num=0;
+		
+		int n = Integer.parseInt(br.readLine());
+		parentArray = new int[n];
+		childNumArray = new int[n];
+		
+		stzr = new StringTokenizer(br.readLine());
+		for(int i=0;i<n;i++) {
+			parentArray[i] = Integer.parseInt(stzr.nextToken());
+			if(parentArray[i]==-1) continue;
+			childNumArray[parentArray[i]]++;
+		}
+		//트리 세팅 완료
+
+		int deleteNodeNum = Integer.parseInt(br.readLine());
+		
+		if(parentArray[deleteNodeNum]!=-1) {
+			childNumArray[parentArray[deleteNodeNum]]--;
+		}// 지우려는 노드의 부모한테 가서 자식 수를 줄인다음 
+		DeleteNode(deleteNodeNum);// 리프노드 수 정리하기
+		
+		for(int i=0;i<childNumArray.length;i++) {
+			if(childNumArray[i]==0) {
+				num++;
+			}
+		}
+		
+		System.out.println(num);
+	}
+
+	public static void DeleteNode(int deleteNodeNum) {
+		childNumArray[deleteNodeNum]=Integer.MAX_VALUE;
+		//대거 처리 예정...
+		for(int i=0;i<parentArray.length;i++) {
+			if(parentArray[i]==deleteNodeNum) {
+				DeleteNode(i);
+			}
+		}
+	}
+}
