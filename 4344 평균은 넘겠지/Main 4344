@@ -1,0 +1,44 @@
+import java.util.Scanner;
+
+
+public class Main {
+
+	public static void main(String[] args) {
+	
+		int case_num =0;
+		
+		Scanner sc = new Scanner(System.in);
+		case_num = sc.nextInt();
+		
+		double[] hm_std=new double[case_num];
+		
+		
+		for(int i=0;i<case_num;i++) {
+			
+			int cnt=0;
+			double avg_percent;
+			
+			int people_num = sc.nextInt();
+			
+			int[] score = new int[people_num];
+			double avg=0;
+			
+			for(int j=0;j<people_num;j++) {
+				score[j]= sc.nextInt();
+				avg+=score[j];
+			}
+			avg=avg/people_num;
+			for(int u=0;u<people_num;u++) {
+				if(score[u]>avg){cnt++;}
+			}
+			hm_std[i]=100*((double)cnt/(double)people_num);
+		}
+		
+		for(int i=0;i<case_num;i++) {
+			System.out.printf("%.3f",hm_std[i]);
+			System.out.println("%");
+		}
+	
+	}
+	
+	}
