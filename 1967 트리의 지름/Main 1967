@@ -1,0 +1,77 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static LinkedList<Node>[] list; //트리!!
+	public static boolean[] visited; // dfs에서 무한루프에 빠지지 않게끔 하는 장치
+	public static int maxNode=1, max =0; //최대값 찾기위해 미리 선언
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr;
+		
+		int n = Integer.parseInt(br.readLine()); //노드 개수
+		
+		list = new LinkedList[n+1]; //노드 개수대로!! 0 때문에 n+1인 것
+		visited =  new boolean[n+1];
+		
+		for(int i=0;i<=n;i++) {
+			list[i]= new LinkedList<Node>(); //객체 만들어 주기
+		}
+		
+		for(int i=1;i<n;i++) {
+			stzr = new StringTokenizer(br.readLine()); //입력 받기
+			
+			int a = Integer.parseInt(stzr.nextToken());
+			int b = Integer.parseInt(stzr.nextToken());
+			int c = Integer.parseInt(stzr.nextToken());
+			
+			list[a].add(new Node(b,c)); //양방향 트리로 만들어주기
+			list[b].add(new Node(a,c));
+		}
+		//트리 다 만들었으니 시작
+		
+		//우선 루트로부터 제일 먼 노드를 구한다.
+		//그 노드로부터 제일 먼 노드를 구한다.
+		
+		Node maxDistanceNode = dfs(new Node(1,0));
+		visited = new boolean[n+1]; //이거 절대 잊지 말기.
+		Node ans = dfs(new Node(maxDistanceNode.index,0));
+		
+		System.out.println(ans.dist);
+	}
+	
+	public static Node dfs(Node node) {
+		//들어온 노드 index 와 dist 따로 설정해주기
+		
+		int iindex = node.index;
+		int ddist = node.dist;
+		
+		visited[iindex]=true;
+		
+		if(ddist> max) {
+			max = ddist;
+			maxNode = iindex;
+		}
+		
+		for(Node nn : list[iindex]) { // 연결되어 있는 자식들 확인
+			if(visited[nn.index]==false) {
+				dfs(new Node(nn.index, ddist+nn.dist));
+			}
+		}
+		return new Node(maxNode, max);
+	}
+	
+	public static class Node{
+		int index; //int child 이런 식으로 잡지 말자...코드짤 때 너무 헷갈린다..
+		int dist;
+		
+		Node(int index, int dist){ //생성자
+			this.index = index;
+			this.dist = dist;
+		}
+	}
+}
