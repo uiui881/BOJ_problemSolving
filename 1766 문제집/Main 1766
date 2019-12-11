@@ -1,0 +1,57 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(stzr.nextToken());
+		int m = Integer.parseInt(stzr.nextToken());
+		
+		LinkedList<Integer>[] list = new LinkedList[n+1];
+		PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+		//우선순위 큐를 사용하면 약간의 dfs느낌이 남ㅋㅋ(개인적 견해)
+		//순서대로 온대로 처리 안하고 뒤에 좀 더 작은 애가 있으면 걔부터 뽑아낼 수 있음 (매우 유용!! 기억하자!!)
+		
+		int[] indegree = new int[n+1];
+		
+		for(int i=0;i<=n;i++) {
+			list[i] = new LinkedList<Integer>();
+		}
+		for(int i=0;i<m;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(stzr.nextToken());
+			int b = Integer.parseInt(stzr.nextToken());
+			
+			list[a].add(b);
+			indegree[b]++;
+		}//그래프 만들기 끝
+		
+		for(int i=1;i<=n;i++) {
+			if(indegree[i]==0) {
+				queue.add(i);
+			}
+		}
+		
+		while(!queue.isEmpty()) {
+			int x = queue.poll();
+			sb.append(x+" ");
+			for(Integer num : list[x]) {
+				indegree[num]--;
+				
+				if(indegree[num]==0) {
+					queue.add(num);
+				}
+			}
+		}
+		
+		System.out.println(sb);
+	}
+}
