@@ -1,0 +1,75 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static LinkedList<Integer>[] graph;
+	public static int[] dist, visited;
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(stzr.nextToken());
+		int m = Integer.parseInt(stzr.nextToken());
+		
+		graph = new LinkedList[n+1];
+		dist = new int[n+1];
+		visited = new int[n+1];
+		Arrays.fill(dist, Integer.MAX_VALUE);
+		dist[1]=0;
+		
+		Queue<Integer> queue = new LinkedList<Integer>();
+		for(int i=1;i<=n;i++) {
+			graph[i] = new LinkedList<Integer>();
+		}
+		for(int i=0;i<m;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(stzr.nextToken());
+			int b = Integer.parseInt(stzr.nextToken());
+			
+			graph[a].add(b);
+			graph[b].add(a);
+		}//그래프 완성
+		
+		//모든 곳에서의 거리를 구해야하니까 다익스트라!!
+		//다익스트라는 dist배열이 있었다.
+		//하지만 다익스트라는 보통 한 방향일 때만 적용한다!!
+		//이 문제는 양방향이니까 visited 추가하자!!
+		queue.add(1);
+		visited[1]=1;
+		while(!queue.isEmpty()) {
+			int x = queue.poll();
+				for(int num : graph[x]) {
+					if(visited[num]==0) {
+						dist[num] = dist[num]> dist[x]+1 ? dist[x]+1 : dist[x];
+						queue.add(num);
+						visited[num]=1;
+					}
+				}
+		}
+	
+		int max = dist[1];
+		int maxIndex = 1;
+		for(int i=2;i<=n;i++) {
+			if(max < dist[i]) {
+				max = dist[i];
+				maxIndex = i;
+			}
+		}sb.append(maxIndex+" "+max+" ");
+		
+		int num=0;
+		for(int i=1;i<=n;i++) {
+			if(max == dist[i]) {
+				num++;
+			}
+		}sb.append(num+"\n");
+		
+		System.out.println(sb);
+	}
+}
