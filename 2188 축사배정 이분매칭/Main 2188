@@ -1,0 +1,66 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static LinkedList<Integer>[] graph;
+	public static int[] partner;
+	public static boolean[] visited;
+	public static int cowNum,cowshedNum;
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		
+		cowNum = Integer.parseInt(stzr.nextToken()); //소의 수
+		cowshedNum = Integer.parseInt(stzr.nextToken()); //축사 수
+		int match=0; //매칭 수 
+		
+		graph = new LinkedList[cowNum+1];
+		visited = new boolean[cowshedNum+1];
+		partner = new int[cowshedNum+1];
+		
+		for(int i=0;i<=cowNum;i++) {
+			graph[i]= new LinkedList<Integer>();
+		}//그래프 초기화
+		
+		for(int i=1;i<=cowNum;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			int T = Integer.parseInt(stzr.nextToken());//반복 수
+			
+			for(int j=0;j<T;j++) {
+				graph[i].add(Integer.parseInt(stzr.nextToken()));
+			}
+		}//그래프 완성
+		
+		for(int i=1;i<=cowNum;i++) { // 축사 매칭 시작 //소의 수만큼 진행함
+			Arrays.fill(visited, false);//visited array초기화
+			//새로운 cow에서 시작하니깐!! 이 cow가 탐색했는지 안했는지 알기 위한 배열이니까!!
+			
+			if(dfs(i)==true) { //1번부터 시작
+				match++;//1늘어남
+			}
+			
+		}
+		System.out.println(match);
+	}
+	public static boolean dfs(int x) { //2가 들어옴
+		
+		for(int i=0;i<graph[x].size();i++) {
+			int barn = graph[x].get(i); //1에 달려있는 애 2였음
+			//2에 달려있는 애 2 3 4 였음
+			if(visited[barn]==true) continue; //방문했나?
+			
+			visited[barn] = true; //방문 안했으면 이제 방문한걸로!!
+			
+			if(partner[barn]==0 || dfs(partner[barn])) { 
+				partner[barn]=x;
+				return true;
+			}
+		}
+		return false;
+	}
+}
