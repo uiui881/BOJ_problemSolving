@@ -1,0 +1,58 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(stzr.nextToken()); // 나무 수 
+		int m = Integer.parseInt(stzr.nextToken()); // 나무 길이
+		
+		int[] tree = new int[n]; //나무 배열
+		
+		stzr = new StringTokenizer(br.readLine());
+		for(int i=0;i<n;i++) {
+			tree[i] = Integer.parseInt(stzr.nextToken());
+		}
+		
+		Arrays.sort(tree);
+		
+		int maxHeight = tree[n-1]; //제일 높은 나무
+		int minHeight = 0;
+		int mid, ans=0;
+		
+		
+		while(maxHeight > minHeight) { //if(cutSum==m)이거는..딱 맞출 수 없다..
+			
+			long cut =0;
+			long cutSum =0;
+			
+			mid = (maxHeight+minHeight)/2; //가운데 
+			
+			for(int i=0;i<n;i++) {
+				cut = tree[i]-mid; 
+				
+				if(cut<0) {
+					continue; //mid가 나무보다 크면 skip
+				}
+				else {
+					cutSum+=cut;
+				}
+			}
+			
+			if(cutSum<m) { //자르고 싶은 것보다 많이 남으면
+				maxHeight = mid;
+			}
+			else {
+				ans = mid;
+				minHeight = mid+1;
+			}
+		}
+		
+		System.out.println(ans);
+	}
+}
