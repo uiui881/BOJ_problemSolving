@@ -1,0 +1,57 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static int[][] dist;
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		int n = Integer.parseInt(br.readLine());
+		int m = Integer.parseInt(br.readLine());
+		int max = 100001;
+		dist = new int[n+1][n+1];
+		
+		for(int i=1;i<=n;i++) {
+			for(int j=1;j<=n;j++) {
+				if(i==j) {
+					continue;
+				}
+				dist[i][j] = max;
+			}
+		}//초기화
+		
+		for(int i=0;i<m;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(stzr.nextToken());
+			int b = Integer.parseInt(stzr.nextToken());
+			int cost = Integer.parseInt(stzr.nextToken());
+			
+			dist[a][b] = dist[a][b] > cost ? cost : dist[a][b];
+		}//완성
+		
+		for(int k=1;k<=n;k++) {
+			for(int i=1;i<=n;i++) {
+				for(int j=1;j<=n;j++) {
+					dist[i][j] = dist[i][j] > dist[i][k]+dist[k][j] ? dist[i][k]+ dist[k][j] : dist[i][j];
+				}
+			}
+		}
+		
+		for(int i=1;i<=n;i++) {
+			for(int j=1;j<=n;j++) {
+				if(dist[i][j]==max) {
+					sb.append("0 ");
+					continue;
+				}
+				sb.append(dist[i][j]+" ");
+			}
+			sb.append("\n");
+		}
+		System.out.println(sb);
+	}
+}
