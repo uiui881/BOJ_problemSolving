@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+	
+		Scanner sc = new Scanner(System.in);
+		int test_num=sc.nextInt();
+		int[] result= new int[test_num];
+		for(int i=0;i<test_num;i++) {
+			int a = sc.nextInt();
+			int b = sc.nextInt();
+			if(a>0 && b<10)
+			result[i]=a+b;
+		}
+		for(int j=0;j<test_num;j++)
+			{System.out.println("Case #"+(j+1)+": "+result[j]);}
+	}
+}
