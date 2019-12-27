@@ -1,0 +1,43 @@
+public class Main {
+
+	public static void main(String[] args) {
+	
+	boolean[] check_num = new boolean[10001];
+	init_array(check_num);
+	make_self_num(check_num);
+	
+	for(int i=1;i<=10000;i++) {
+		if(check_num[i]==true) {
+			System.out.println(i);
+		}
+	}
+	
+	}
+
+	public static void init_array(boolean[] check_num) {
+		for(int i=1;i<check_num.length;i++) {
+			check_num[i]=true;
+		}
+	}
+	public static void make_self_num(boolean[] check_num) {
+		
+		for(int n=1;n<=10000;n++) {
+			if(n<10) {
+				check_num[2*n]=false;
+			}
+			if(n>=10 && n<100) {
+				check_num[n+n/10+n%10]=false;
+			}
+			if(n>=100 && n<1000) {
+				int rest1, rest2;
+				check_num[n+n/100+(n%100)/10+n%10]=false;
+			}
+			try{if(n>=1000 && n<10000) {
+				check_num[n+n/1000+(n%1000)/100+(n%100)/10+n%10]=false;
+			}}catch(ArrayIndexOutOfBoundsException e) {
+				
+			}
+		}
+	}
+	
+	}
