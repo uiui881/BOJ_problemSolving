@@ -1,0 +1,101 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static char[][][] map;
+	public static boolean[][][] visited;
+	public static int[] arrayX = {-1,1,0,0,0,0};
+	public static int[] arrayY = {0,0,-1,1,0,0};
+	public static int[] arrayZ = {0,0,0,0,-1,1};
+	public static int R,C,L;
+	public static Queue<Node> queue;
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		while(true) {
+			
+			stzr = new StringTokenizer(br.readLine());
+			L = Integer.parseInt(stzr.nextToken());//층수
+			R = Integer.parseInt(stzr.nextToken());//행
+			C = Integer.parseInt(stzr.nextToken());//렬
+		
+			if(R==0 && C==0 && L==0) {
+				break;
+			}
+			map = new char[R][C][L];
+			visited = new boolean[R][C][L];	
+			queue = new LinkedList<Node>();
+			int flag =0;
+			
+			for(int i=0; i<L; i++) {
+				for(int j=0; j<R;j++) {
+					String str = br.readLine();
+					for(int k=0;k<C;k++) {
+						map[j][k][i]=str.charAt(k);
+						if(str.charAt(k)=='S') {
+							queue.add(new Node(j,k,i,0));
+							visited[j][k][i]=true;
+						}
+					}
+				}
+				br.readLine();//에러 날 것 같은데
+			}
+			
+			while(!queue.isEmpty()) {
+				
+				Node node = queue.poll();
+				int x = node.x;
+				int y = node.y;
+				int z = node.z;
+				int cost = node.cost;
+				
+				if(map[x][y][z]=='E') {
+					sb.append("Escaped in "+cost+" minute(s).\n");
+					flag =1;
+					break;
+				}
+				for(int i=0;i<6;i++) {
+					int dx = x + arrayX[i];
+					int dy = y + arrayY[i];
+					int dz = z + arrayZ[i];
+					
+					if(check(dx,dy,dz) && visited[dx][dy][dz]==false && map[dx][dy][dz]!='#') {
+						visited[dx][dy][dz]=true;
+						queue.add(new Node(dx,dy,dz,cost+1));
+					}
+				}
+			}
+			if(flag!=1) {
+				sb.append("Trapped!\n");
+			}
+			
+		}
+		System.out.println(sb);
+	}
+	public static boolean check(int x, int y, int z) {
+		if(x>=0 && y>=0 && z>=0 && x<R && y<C && z<L) {
+			return true;
+		}
+		return false;
+	}
+	public static class Node{
+		int x;
+		int y;
+		int z;
+		int cost;
+		
+		Node(int x, int y, int z, int cost){
+			this.x = x;
+			this.y = y;
+			this.z = z;
+			this.cost = cost;
+		}
+	}
+}
