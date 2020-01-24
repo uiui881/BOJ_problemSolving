@@ -1,0 +1,52 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		int n = Integer.parseInt(br.readLine());
+		int[] tall = new int[n+1];
+		int[] place = new int[n+1];
+		stzr = new StringTokenizer(br.readLine());
+		for(int i=1;i<=n;i++) {
+			tall[i] = Integer.parseInt(stzr.nextToken());
+		}
+		
+		for(int i=1;i<=n;i++) {
+			int cnt=0;
+			int placeIndex=0;
+			for(int j=1;j<=n;j++) {
+				if(place[j]==0) {
+					cnt++;
+				if(cnt==tall[i]) {
+					placeIndex=j;
+					break;
+					}
+				}	
+			}
+			int index = placeIndex+1;
+			while(true) {
+				if(place[index]==0) {
+					place[index]=i;
+					break;
+				}else {
+					index++;
+				}
+				
+			}
+			
+		}
+		
+		for(int i=1;i<=n;i++) {
+			sb.append(place[i]+" ");
+		}
+		System.out.println(sb);
+	}
+}
