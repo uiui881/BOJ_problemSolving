@@ -1,0 +1,34 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		String str;
+		while(true) {
+			str = br.readLine().toLowerCase();
+			int num=0;
+			if(str.equals("#")) {
+				break;
+			}
+			
+			for(int i=0;i<str.length();i++) {
+				char ch = str.charAt(i);
+				if(ch=='a'||ch=='e'||ch=='o'||ch=='i'||ch=='u') {
+					num++;
+				}
+			}
+			sb.append(num+"\n");
+		}
+		
+		System.out.println(sb);
+	}
+}
