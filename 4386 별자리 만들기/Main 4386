@@ -1,0 +1,101 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+  
+	//크루스칼로 풀어야지!!
+	public static Star[] stars;
+	public static Node[][] nodes;
+	public static int[] parent;
+	public static double total;
+	public static PriorityQueue<Node> pq = new PriorityQueue<Node>();
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer stzr;
+        
+        int n = Integer.parseInt(br.readLine());
+        stars = new Star[n+1];
+        nodes = new Node[n+1][n+1];
+        parent = new int[n+1];
+        total=0;
+        
+        for(int i=1;i<=n;i++) {
+        	stzr = new StringTokenizer(br.readLine());
+        	stars[i] = new Star(i, Double.parseDouble(stzr.nextToken()), Double.parseDouble(stzr.nextToken()));
+        	parent[i]=i;
+        }
+        
+        for(int i=1;i<=n;i++) {
+        	for(int j=i+1;j<=n;j++) {
+        		nodes[i][j]= new Node(stars[i].num, stars[j].num, dist(stars[i], stars[j]));
+        		pq.add(nodes[i][j]);
+        	}
+        }//이제 이 노드 가지고 하는 것!!!
+        
+        Kruskal();
+        System.out.printf("%.2f", total);
+    }
+    public static void Kruskal() {
+    	
+    	while(!pq.isEmpty()) {
+    		Node a = pq.poll();
+    	
+    		if(find(a.start)!=find(a.end)) {
+    			union(a.start, a.end);
+    			total+=a.value;
+    		}
+    	}
+    	
+    }
+    public static int find(int x) {
+    	if(x==parent[x]) {
+    		return x;
+    	}
+    	parent[x]=find(parent[x]);
+    	
+    	return parent[x];
+    }
+    public static void union(int x, int y) {
+    	int xRoot = find(x);
+    	int yRoot = find(y);
+    	
+    	if(xRoot!=yRoot) {
+    		parent[xRoot]=y;
+    	}
+    }
+    
+    public static double dist(Star star1, Star star2) {
+		
+    	return Math.sqrt(Math.pow(star1.x-star2.x, 2)+Math.pow(star1.y-star2.y, 2));
+	}
+
+	public static class Node implements Comparable{
+    	int start;
+    	int end;
+    	double value;
+    	public Node(int start, int end, double value) {
+    		this.start = start;
+    		this.end = end;
+    		this.value = value;
+    	}
+		@Override
+		public int compareTo(Object arg0) {
+			Node nn = (Node) arg0;
+			return this.value< nn.value ? -1 : 1;
+		}    	
+    }
+    
+    public static class Star{
+    	int num;
+    	double x;
+    	double y;
+    	public Star(int num,double x, double y) {
+    		this.num= num;
+    		this.x =x;
+    		this.y =y;
+    	}
+    }
+}
