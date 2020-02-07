@@ -1,0 +1,43 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static StringBuilder sb = new StringBuilder();
+	public static void main(String[] args) throws Exception {	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr ;//= new StringTokenizer(br.readLine());
+		
+		while(true) {
+			Set<Integer>set = new HashSet<Integer>();
+			stzr = new StringTokenizer(br.readLine());
+			int cnt=0;
+			int[] arr = new int[stzr.countTokens()-1];
+			int num = Integer.parseInt(stzr.nextToken());
+			if(num==-1) {
+				break;
+			}
+			set.add(num);
+			arr[0]=num;
+			
+			for(int i=1;i<arr.length;i++) { //arr.length 대신에 countToken쓰지말자. countToken의 갯수는 계속 변한다!!
+				int nn = Integer.parseInt(stzr.nextToken());
+				set.add(nn);
+				arr[i]=nn;
+			}
+		
+			for(int i=0;i<arr.length;i++) {
+				if(set.contains(arr[i]*2)) {
+					cnt++;
+				}
+			}
+			sb.append(cnt+"\n");
+		}
+
+		System.out.println(sb);
+	}
+}
