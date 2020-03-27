@@ -1,0 +1,83 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static long[] arr;
+	public static long[] tree;
+	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(stzr.nextToken());// 수의 개수
+		int m = Integer.parseInt(stzr.nextToken());// 변경이 일어나는 횟수(Update)
+		int k = Integer.parseInt(stzr.nextToken()); //구간합을 구하는 횟수
+		
+		arr = new long[n+1];//세그먼트는 노드가 1부터 시작
+		tree = new long[(n+1)*4];
+		
+		for(int i=1;i<=n;i++) {
+			arr[i]= Integer.parseInt(br.readLine());
+		}
+		init(arr,tree,1,1,arr.length-1);
+		
+		for(int i=0;i<m+k;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			long num = Long.parseLong(stzr.nextToken());
+			long a =  Long.parseLong(stzr.nextToken());
+			long b =  Long.parseLong(stzr.nextToken());
+			
+			if(num==1) {
+				//update하고
+				update(tree, 1, 1, arr.length-1, a, b-arr[(int)a]);
+			}
+			if(num==2) {
+				//sum구하고
+				sb.append(sum(tree, 1, 1, arr.length-1, a,b)+"\n");
+			}
+		}
+		System.out.println(sb);
+	}
+	
+	public static long init(long[] arr, long[] tree, int node, int start, int end) {
+		
+		if(start==end) {
+			tree[node]=arr[start];
+			return tree[node];
+		}
+		
+		int mid= (start+end)/2;
+		return tree[node]= init(arr, tree, node*2, start, mid)+init(arr, tree, node*2+1, mid+1, end);
+	}
+	
+	public static void update(long[] tree, int node, int start, int end, long index, long diff) {
+		
+		if(!(start<=index && index<= end)) {
+			return;
+		}
+		tree[node]+=diff;
+		
+		if(start!=end) {
+			int mid = (start+end)/2;
+			update(tree, node*2, start, mid, index, diff);
+			update(tree, node*2+1, mid+1, end, index, diff);
+		}
+		if(start==end) {
+			arr[(int) index]+=diff;
+		}
+	}
+	
+	public static long sum(long[] tree, int node, int start, int end, long left, long right) {
+		if(left>end || right< start) {
+			return 0;
+		}
+		if(left<=start && end<=right) {
+			return tree[node];
+		}
+		int mid = (start+end)/2;
+		return sum(tree, node*2, start, mid, left, right)+ sum(tree, node*2+1, mid+1, end, left, right);
+	}
+}
