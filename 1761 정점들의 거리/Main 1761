@@ -1,0 +1,104 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+ 
+public class Main {
+  
+	public static int n, total;
+	public static ArrayList<Node>[] tree;
+	public static int[] parent;
+	public static int[] depth;
+
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer stzr;
+        
+        n = Integer.parseInt(br.readLine());
+        tree = new ArrayList[n+1];
+        parent = new int[n+1];
+        depth = new int[n+1];
+        
+        for(int i=1;i<=n;i++) {
+        	tree[i] = new ArrayList<Node>();
+        }
+        
+        for(int i=1;i<n;i++) {
+        	stzr = new StringTokenizer(br.readLine());
+        	int a = Integer.parseInt(stzr.nextToken());
+        	int b = Integer.parseInt(stzr.nextToken());
+        	int d = Integer.parseInt(stzr.nextToken());
+        	
+        	tree[a].add(new Node(b,d));
+        	tree[b].add(new Node(a,d));
+        }
+        //트리 완성
+        
+        parentDFS(1,1,0);
+        
+        int m = Integer.parseInt(br.readLine());
+        for(int i=0;i<m;i++) {
+        	stzr = new StringTokenizer(br.readLine());
+        	int a = Integer.parseInt(stzr.nextToken());
+        	int b = Integer.parseInt(stzr.nextToken());
+        	total=0;
+        	
+        	int da = depth[a];
+        	int db = depth[b];
+        	
+        	while(da>db) {
+        		
+        		getDistance(a);
+        		a= parent[a];
+        		da--;
+        	}
+        	
+        	while(db>da) {
+        		
+        		getDistance(b);
+        		b= parent[b];
+        		db--;
+        	}
+        	
+        	while(a!=b) {
+        		
+        		getDistance(a);
+        		getDistance(b);
+        		a = parent[a];
+        		b = parent[b];
+        	}
+        	sb.append(total+"\n");
+        }
+        System.out.println(sb);
+    }
+    
+    public static void getDistance(int num) {
+    	
+    	for(int j=0;j<tree[num].size();j++) {
+			if(tree[num].get(j).x==parent[num]) {
+				total+=tree[num].get(j).distance;
+			}
+		}
+    }
+	public static void parentDFS(int node, int xdepth, int xparent) {
+		depth[node]= xdepth;
+		parent[node]= xparent;
+		
+		for(Node n : tree[node]) {
+			if(depth[n.x]==0) {
+				parentDFS(n.x, xdepth+1, node);
+			}
+			
+		}
+	}
+	public static class Node{
+		int x;
+		int distance;
+		
+		public Node(int x, int distance) {
+			this.x =x;
+			this.distance =distance;
+		}
+	}
+}
