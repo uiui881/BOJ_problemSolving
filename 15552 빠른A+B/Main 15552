@@ -1,0 +1,36 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException  {
+		
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.parseInt(br.readLine());
+		
+		StringTokenizer stzr = null; //null을 가르키고 있음
+		int[] A = new int[T];
+		int[] B = new int[T];
+		int[] C = new int[T];
+		
+		for(int i=0; i<T; i++) {
+			stzr= new StringTokenizer(br.readLine()); //인스턴스가 생김
+			A[i]= Integer.parseInt(stzr.nextToken());
+			B[i]= Integer.parseInt(stzr.nextToken());
+			C[i]= A[i]+B[i];
+		}
+		for(int j=0; j<T; j++) {
+			bw.write(String.valueOf(C[j])+"\n");
+		}
+		bw.flush();
+		bw.close();
+		
+	
+	}
+}
