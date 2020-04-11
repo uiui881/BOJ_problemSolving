@@ -1,0 +1,46 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+	
+	public static int n;
+	public static int cnt;
+	public static int[] cols;
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        
+        n = Integer.parseInt(br.readLine());
+        cols = new int[n]; //세로 위치
+        cnt=0;
+        N_Queens(0); //가로 0번부터 시작
+        System.out.println(cnt);
+    }
+    
+    public static void N_Queens(int level) {
+    	
+    	if(level==n) { //
+    		cnt++;
+    	}
+    	else {
+    		for(int i=0;i<n;i++) {
+    			cols[level]= i;
+    		
+    		if(isPossible(level)) {
+    			N_Queens(level+1);
+    			}
+    		}
+    	}
+    	
+    }
+    
+    public static boolean isPossible(int level) {
+    	
+    	for(int i=0;i<level;i++) {
+    		if(cols[i]==cols[level] || Math.abs(level-i)==Math.abs(cols[level]-cols[i])) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+}
