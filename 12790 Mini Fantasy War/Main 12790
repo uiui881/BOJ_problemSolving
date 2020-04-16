@@ -1,0 +1,51 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+//12790
+public class Main {
+	
+ 	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		int T = Integer.parseInt(br.readLine());
+		
+		while(T-->0) {
+			stzr = new StringTokenizer(br.readLine());
+			int hp, mp, ap, dp, hpp, mpp, app, dpp;
+			
+			hp = Integer.parseInt(stzr.nextToken());
+			mp = Integer.parseInt(stzr.nextToken());
+			ap = Integer.parseInt(stzr.nextToken());
+			dp = Integer.parseInt(stzr.nextToken());
+			hpp = Integer.parseInt(stzr.nextToken());
+			mpp = Integer.parseInt(stzr.nextToken());
+			app = Integer.parseInt(stzr.nextToken());
+			dpp = Integer.parseInt(stzr.nextToken());
+			
+			hp= hp+hpp;
+			mp= mp+mpp;
+			ap= ap+app;
+			dp= dp+dpp;
+			
+			if(hp <1) {
+				hp =1;
+			}
+			if(mp <1) {
+				mp =1;
+			}
+			if(ap<0) {
+				ap=0;
+			}
+			sb.append(1*hp+5*mp+2*ap+2*dp+"\n");
+		}
+		System.out.println(sb);
+ 	}
+}
