@@ -1,0 +1,58 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static LinkedList<Integer>[] graph;
+	public static Queue<Integer> queue;
+	public static int[] indegree;
+
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(stzr.nextToken());
+		int m = Integer.parseInt(stzr.nextToken());
+		
+		graph = new LinkedList[n+1];
+		indegree = new int[n+1];
+		queue = new LinkedList<Integer>();
+		
+		for(int i=1;i<=n;i++) {
+			graph[i]= new LinkedList<Integer>();
+		}
+		
+		for(int i=0;i<m;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(stzr.nextToken());
+			int b = Integer.parseInt(stzr.nextToken());
+			
+			graph[a].add(b);
+			indegree[b]++;
+		}//그래프 완성
+		
+		for(int i=1;i<=n;i++) {
+			if(indegree[i]==0) {
+				queue.offer(i);
+			}
+		}
+		while(!queue.isEmpty()) {
+			int x = queue.poll();
+			sb.append(x+" ");
+			
+			for(int num : graph[x]) {
+				indegree[num]--;
+				
+				if(indegree[num]==0) {
+					queue.offer(num);
+				}
+			}
+		}
+		System.out.println(sb);
+	}
+}
