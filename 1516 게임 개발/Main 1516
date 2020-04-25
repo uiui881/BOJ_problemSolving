@@ -1,0 +1,74 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static LinkedList<Integer>[] list;
+	public static Queue<Integer> searchQ;
+	public static int[] indegree, ans, load; //원래 노드 가지고 있고 time가지고 있을 아이
+	public static int n;
+
+	public static void main(String[] args) throws Exception {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		n = Integer.parseInt(br.readLine());
+		list = new LinkedList[n+1];
+		searchQ = new LinkedList<Integer>();
+		indegree = new int[n+1];
+		load = new int[n+1];
+		ans = new int[n+1];
+
+		for(int i=0;i<=n;i++) {
+			list[i]= new LinkedList<Integer>();
+		}//배열 초기화
+		
+		for(int i=1;i<=n;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			load[i]=ans[i]=Integer.parseInt(stzr.nextToken());
+			while(stzr.hasMoreTokens()) {
+				int a = Integer.parseInt(stzr.nextToken());
+				if(a==-1) {
+					break;
+				}
+				list[a].add(i);
+				indegree[i]++;
+			}
+		}// 그래프 완성
+		Topological_sorting();
+		
+		for(int i=1;i<=n;i++) {
+			sb.append(ans[i]+"\n");
+		}
+		System.out.println(sb);
+	}
+	
+	public static void Topological_sorting() {
+		
+		for(int i=1;i<=n;i++) {
+			if(indegree[i]==0) {
+				searchQ.offer(i);
+			}
+		}
+		while(!searchQ.isEmpty()) { //이 실수 장난...???//비지 않을때까지!! '!'이거 왜 빼먹냐!!
+			int m = searchQ.poll();
+			
+			for(Integer num : list[m]) {
+				indegree[num]--;
+				if(ans[num]<ans[m]+load[num]) { //으악 이런 형태 수백번은 했을텐데
+					//왜 모르니!!!!! 이게 알고리즘 겉핥기로만 해서 그래!!!!!
+					//제발 생각하면서 알고리즘 풀자!!!!!!!!!!!!!
+					ans[num]= ans[m]+load[num];
+				}
+				if(indegree[num]==0) {
+					searchQ.offer(num);
+				}
+			}
+		}
+	}
+}
