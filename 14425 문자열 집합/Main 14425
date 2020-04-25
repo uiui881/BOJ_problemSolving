@@ -1,0 +1,32 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(stzr.nextToken());
+		int m = Integer.parseInt(stzr.nextToken());
+		
+		Set<String> set = new HashSet<String>();
+		for(int i=0;i<n;i++) {
+			set.add(br.readLine());
+		}
+		int num=0;
+		
+		for(int i=0;i<m;i++) {
+			if(set.contains(br.readLine())) {
+				num++;
+			}
+		}
+		
+		System.out.println(num);
+	}
+}
