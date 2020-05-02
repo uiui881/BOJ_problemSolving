@@ -1,0 +1,42 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		int n = Integer.parseInt(br.readLine());
+		int[] location = new int[n];
+		
+		while(n-->0) {
+			stzr = new StringTokenizer(br.readLine());
+			int x = Integer.parseInt(stzr.nextToken());
+			int y = Integer.parseInt(stzr.nextToken());
+			
+			if(x ==0 || y==0) {
+				location[0]++;
+			}
+			else if(x>0 && y>0) {
+				location[1]++;
+			}
+			else if(x<0 && y>0) {
+				location[2]++;
+			}
+			else if(x<0 && y<0) {
+				location[3]++;
+			}
+			else if(x>0 && y<0) {
+				location[4]++;
+			}
+		}
+		
+		System.out.println("Q1: "+location[1]+"\n"+"Q2: "+location[2]+"\n"+"Q3: "+location[3]+"\n"+"Q4: "+location[4]+"\n"+"AXIS: "+location[0]+"\n");
+	}
+}
