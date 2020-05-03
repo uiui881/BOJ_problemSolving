@@ -1,0 +1,48 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static int n;
+	public static int[] days;
+	public static int[] prices;
+	public static int[] dp;
+	public static StringBuilder sb= new StringBuilder();
+    public static void main(String args[]) throws Exception {
+       
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer stzr;// = new StringTokenizer(br.readLine());
+    	
+    	n = Integer.parseInt(br.readLine());
+    	
+    	days = new int[n+1];
+    	prices = new int[n+1];
+    	dp = new int[n+2];
+    	
+    	for(int i=1;i<=n;i++) {
+    		stzr = new StringTokenizer(br.readLine());
+    		days[i] = Integer.parseInt(stzr.nextToken());
+    		prices[i] = Integer.parseInt(stzr.nextToken());
+    	}
+    	
+    	dping();
+    	System.out.println(dp[1]);
+	}
+	public static void dping() {
+		
+		for(int i=n;i>0;i--) { //i=10
+			
+			if(i+days[i]>n+1) {
+				dp[i]=dp[i+1];
+				continue;
+			}
+			
+			int temp = prices[i]+dp[i+days[i]];
+			
+			dp[i] = Math.max(temp, dp[i+1]);
+		}
+		
+	}
+}
