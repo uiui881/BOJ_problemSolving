@@ -1,0 +1,33 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static long[] arr, tree;
+	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		
+		int n = Integer.parseInt(stzr.nextToken());
+		int k = Integer.parseInt(stzr.nextToken());
+		
+		for(int i=1;i<=n;i++) {
+			list.add(i);
+		}
+		int index=-1;
+		sb.append("<");
+		while(list.size()!=0) {
+			index=(index+k)%list.size();
+			sb.append(list.remove(index)+", ");
+			index--;//하나 지워지면 인덱스가 하나 당겨짐.
+		}
+		sb.delete(sb.length()-2, sb.length());//이상, 미만
+		sb.append(">");
+		System.out.println(sb);
+	}
+}
