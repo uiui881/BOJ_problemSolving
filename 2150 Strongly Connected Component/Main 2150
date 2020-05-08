@@ -1,0 +1,109 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Stack;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	//코사라주 알고리즘 - 강한 연결 요소
+	public static ArrayList<Integer>[] con;//정방향 그래프
+	public static ArrayList<Integer>[] rev; //역방향 그래프
+	public static int cnt;// 번호 순서
+	public static Stack<Integer> stack;// 스택도 있어야하지!!
+	public static int[] visited; //들어온 번호 순서를 저장할 아이
+	public static boolean[] checked;//scc를 이뤘는지 체크
+	public static ArrayList<Integer> ans;// 같은 scc에 있는 애들 출력
+	public static ArrayList<ArrayList<Integer>> answers; //답을 가지고 있는 list들
+ 	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+
+		int V = Integer.parseInt(stzr.nextToken());
+		int E = Integer.parseInt(stzr.nextToken());
+		
+		con = new ArrayList[V+1];
+		rev = new ArrayList[V+1];
+		visited = new int[V+1];
+		checked = new boolean[V+1];
+		stack = new Stack<Integer>();
+		answers = new ArrayList<ArrayList<Integer>>();
+		cnt=1;
+		
+		for(int i=1;i<=V;i++) {
+			con[i]= new ArrayList<Integer>();
+			rev[i]= new ArrayList<Integer>();
+		}
+		
+		for(int i=0;i<E;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(stzr.nextToken());
+			int b = Integer.parseInt(stzr.nextToken());
+			
+			con[a].add(b);
+			rev[b].add(a);
+		}//완성
+		
+		for(int i=1;i<=V;i++) {
+			if(visited[i]==0) {
+				dfs(i);
+			}
+		}
+		
+		while(!stack.isEmpty()) {
+			ans = new ArrayList<Integer>();
+			int num = stack.pop();
+			if(!checked[num]) {
+				scc(num);
+				
+				if(ans.size()>0) {
+					Collections.sort(ans);
+					answers.add(ans);
+				}
+				
+				
+			}
+		}
+		
+		Collections.sort(answers, new Comparator<ArrayList<Integer>>() {
+
+			@Override
+			public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
+				// TODO Auto-generated method stub
+				return o1.get(0)-o2.get(0);
+			}
+			
+		});
+		sb.append(answers.size()+"\n");
+		for(int i=0;i<answers.size();i++) {
+			for(int j=0;j<answers.get(i).size();j++) {
+				sb.append(answers.get(i).get(j)+" ");
+			}
+			sb.append("-1\n");
+		}
+		System.out.println(sb);
+ 	}
+ 	public static void scc(int n) {
+ 		checked[n]=true;
+ 		ans.add(n);
+ 		
+ 		for(int i=0;i<rev[n].size();i++) {
+ 			if(!checked[rev[n].get(i)]) {
+ 				scc(rev[n].get(i));
+ 			}
+ 		}
+ 	}
+ 	public static void dfs(int n) {
+ 		visited[n]=cnt++; //순서 표시
+ 		for(int i=0;i<con[n].size();i++) {
+ 			if(visited[con[n].get(i)]==0) {
+ 				dfs(con[n].get(i));
+ 			}
+ 		}
+ 		stack.push(n);
+ 	}
+}
