@@ -1,0 +1,49 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer stzr;
+		
+		int n = Integer.parseInt(br.readLine());
+		Dot[] dot = new Dot[n];
+		
+		for(int i=0;i<n;i++) {
+			stzr = new StringTokenizer(br.readLine());
+			dot[i]= new Dot(Integer.parseInt(stzr.nextToken()), Integer.parseInt(stzr.nextToken()));
+		}
+		Arrays.sort(dot);
+		
+		for(int i=0;i<dot.length;i++) {
+			sb.append(dot[i].x+" "+dot[i].y+"\n");
+		}
+		System.out.println(sb);
+	}
+	
+	public static class Dot implements Comparable{
+		int x;
+		int y;
+		
+		public Dot(int x, int y){
+			this.x=x;
+			this.y=y;
+		}
+		
+		public int compareTo(Object arg0) {
+			Dot dot = (Dot) arg0;
+			if(this.y== dot.y) {
+				return this.x - dot.x;
+			}
+			else {
+				return this.y- dot.y;
+			}
+		}
+		
+	}
+}
