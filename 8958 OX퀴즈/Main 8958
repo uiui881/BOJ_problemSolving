@@ -1,0 +1,40 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static void main(String[] args)throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringBuilder sb = new StringBuilder();
+		
+		int n = Integer.parseInt(br.readLine());
+		String str = null;
+		
+		int num=0;int flag;int score;
+		
+		for(int i=0;i<n;i++) {
+			
+			flag=-1;score=0;
+			str = br.readLine();
+			
+			for(int j=0;j<str.length();j++) {
+				if(str.charAt(j)=='X') {
+					flag=j;
+				}
+				else if(str.charAt(j)=='O') {
+					if(flag==j-1) {score++;}
+					else if(flag<j-1) {score+=j-flag;}
+				}
+			}
+			sb.append(score+"\n");
+		}
+		bw.write(String.valueOf(sb));
+		bw.flush();
+	}
+}
