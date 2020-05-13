@@ -1,0 +1,114 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static int n,m, cnt, min= Integer.MAX_VALUE, cntZero;
+	public static int[][] arr;
+	public static int[][] visited;
+	public static int[] X= {-1,1,0,0};
+	public static int[] Y= {0,0,-1,1};
+	public static LinkedList<Node> viruslist;
+	public static StringBuilder sb = new StringBuilder();
+    public static void main(String args[]) throws Exception {
+       
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer stzr = new StringTokenizer(br.readLine());
+    	
+    	n = Integer.parseInt(stzr.nextToken());
+    	m = Integer.parseInt(stzr.nextToken());
+    	arr = new int[n][m];
+    	visited = new int[n][m];
+    	viruslist = new LinkedList<Node>();
+    	
+    	for(int i=0;i<n;i++) { 
+    		stzr = new StringTokenizer(br.readLine());
+    		for(int j=0;j<m;j++) {
+    			arr[i][j]= Integer.parseInt(stzr.nextToken());
+    			if(arr[i][j]==2) {
+    				viruslist.add(new Node(i,j));
+    			}else if(arr[i][j]==0) {
+    				cntZero++;
+    			}
+    		}
+    	}//arr완성
+    	
+    	for(int i=0;i<n*m;i++) {
+    		if(arr[i/m][i%m]==1 || arr[i/m][i%m]==2) {
+    			continue;
+    		}
+    		if(arr[i/m][i%m]==0) {
+    			arr[i/m][i%m]=1;
+    			cntZero--;
+    		}
+    		for(int j=i+1;j<n*m;j++) {
+    			if(arr[j/m][j%m]==1 || arr[j/m][j%m]==2) {
+        			continue;
+        		}
+        		if(arr[j/m][j%m]==0) {
+        			arr[j/m][j%m]=1;
+        			cntZero--;
+        		}
+    			for(int k=j+1; k<n*m;k++) {
+    				if(arr[k/m][k%m]==1 || arr[k/m][k%m]==2) {
+            			continue;
+            		}
+            		if(arr[k/m][k%m]==0) {
+            			arr[k/m][k%m]=1;
+            			cntZero--;
+            		}
+    				visited = new int[n][m];
+    				cnt=0;
+    				for(Node node : viruslist) {
+    					DFS(node.x, node.y);
+    				}
+    				min = min > cnt ? cnt : min;
+    				//System.out.println(min+" "+cnt+" "+cntZero);
+    				arr[k/m][k%m]=0;
+    				cntZero++;
+    			}
+    			arr[j/m][j%m]=0;
+    			cntZero++;
+    		}
+    		arr[i/m][i%m]=0;
+    		cntZero++;
+    	}
+    	System.out.println(cntZero-3-min);
+    }
+    
+    public static void DFS(int x, int y) {
+	
+		int dx, dy;
+		for(int i=0;i<4;i++) {
+			dx = x+X[i];
+			dy = y+Y[i];
+			
+			if(checked(dx,dy)&& arr[dx][dy]==0 && visited[dx][dy]==0) {
+				visited[dx][dy]=1;
+				cnt++;
+				DFS(dx, dy);
+			}
+		}
+    	
+		
+	}
+
+	public static boolean checked(int x, int y) {
+		if(x<0 || y<0 || x>=n || y>=m) {
+			return false;
+		}		
+		return true;
+	}
+
+	public static class Node{
+    	int x;
+    	int y;
+    	public Node(int x, int y) {
+    		this.x =x;
+    		this.y =y;
+    	}
+    }
+}
