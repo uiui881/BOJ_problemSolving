@@ -1,0 +1,48 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+ 
+public class Main {
+	
+	public static StringBuilder sb = new StringBuilder();
+    public static void main(String args[]) throws Exception {
+       
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stzr = new StringTokenizer(br.readLine());
+   
+        int n = Integer.parseInt(stzr.nextToken());
+        int m = Integer.parseInt(stzr.nextToken());
+        char[][] arr = new char[n][m];
+        
+        for(int i=0;i<n;i++) {
+        	stzr = new StringTokenizer(br.readLine());
+        	arr[i]= stzr.nextToken().toCharArray();
+        }
+        
+        int flag=0;
+        for(int i=0;i<n;i++) {
+        	flag=0;
+        	for(int j=0;j<m;j++) {
+        		
+        		if(arr[i][j]=='.'&& flag==0) {
+        			sb.append("-1 " );
+        		}
+        		if(arr[i][j]=='c') {
+        			sb.append("0 ");
+        			flag=1;
+        		}
+        		if(arr[i][j]=='.' && flag!=0) {
+        			sb.append(flag+" ");
+        			flag++;
+        		}
+        	}
+        	sb.append("\n");
+        }
+        System.out.println(sb);
+        
+	}
+}
