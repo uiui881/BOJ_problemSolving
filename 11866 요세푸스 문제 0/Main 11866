@@ -1,0 +1,45 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main{
+	
+	public static void main(String[] args)throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		Queue<Integer> queue = new LinkedList<Integer>();
+		
+		int n = Integer.parseInt(stzr.nextToken());
+		int k = Integer.parseInt(stzr.nextToken());
+		int[] ans = new int[n];
+		int cnt=0;
+		
+		for(int i=1; i<=n;i++) {
+			queue.offer(i);
+		}
+	
+		while(!queue.isEmpty()) {
+			
+			for(int i=0; i<k-1;i++) {
+				int card1 = queue.poll();
+				queue.offer(card1);
+			}
+		ans[cnt++] = queue.poll();	
+		}
+		System.out.print("<");
+		for(int i=0; i<ans.length;i++) {
+			if(i==ans.length-1) {
+				System.out.print(ans[i]+">");
+				break;
+			}
+			System.out.print(ans[i]+", ");
+		}
+	}
+}
