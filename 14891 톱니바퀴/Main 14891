@@ -1,0 +1,127 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static StringBuilder sb= new StringBuilder();
+	public static LinkedList<Character>[] list;
+	public static int[] checked;
+    public static void main(String args[]) throws Exception {
+       
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer stzr;
+    	list = new LinkedList[5];
+    	checked = new int[4];
+    	
+    	for(int i=1;i<=4;i++) {
+    		list[i]=new LinkedList<Character>(); //1,2,3,4
+    	}
+    	for(int i=1;i<=4;i++) {
+    		String str = br.readLine();
+    		for(int j=0;j<str.length();j++) {
+    			list[i].add(str.charAt(j));//0,1,2,3,4,5,6,7
+    		}
+    	}
+    	int n = Integer.parseInt(br.readLine());
+    	for(int i=0;i<n;i++) {
+    		stzr = new StringTokenizer(br.readLine());
+    		int num = Integer.parseInt(stzr.nextToken());//1,2,3,4
+    		int dir = Integer.parseInt(stzr.nextToken());
+    		gear(num, dir);//1,2,3,4
+    	}
+    	
+    	int total=0;
+    	for(int i=1;i<=4;i++) {
+    		if(list[i].get(0)=='1') {
+    			total+=Math.pow(2, i-1);
+    		}
+    	}
+    	System.out.println(total);
+    	
+	}
+	public static void gear(int num, int dir) {//1,2,3,4
+		init();//checked문 초기화
+		
+		change(num, dir);//1,2,3,4
+		dir=dir*-1;
+		switch(num) {
+		case 1:
+			for(int i=1;i<=3;i++) {
+				if(checked[i]==1) {
+					change(i+1,dir);
+					dir=-1*dir;
+				}
+				if(checked[i]==0) {
+					break;
+				}
+			}
+			break;
+		case 2:
+			if(checked[1]==1) {
+				change(1,dir);
+			}
+			for(int i=2;i<=3;i++) {
+				if(checked[i]==1) {
+					change(i+1,dir);
+					dir=-1*dir;
+				}
+				if(checked[i]==0) {
+					break;
+				}
+			}
+			break;
+		case 3:
+			if(checked[3]==1) {
+				change(4,dir);
+			}
+			for(int i=2;i>=1;i--) {
+				if(checked[i]==1) {
+					change(i,dir);
+					dir=-1*dir;
+				}
+				if(checked[i]==0) {
+					break;
+				}
+			}
+			break;
+		case 4:
+			for(int i=3;i>=1;i--) {
+				if(checked[i]==1) {
+					change(i,dir);
+					dir=-1*dir;
+				}
+				if(checked[i]==0) {
+					break;
+				}
+			}
+			break;
+		}
+		
+	}
+	public static void change(int num, int dir) {
+		if(dir==1) {
+			char a = list[num].get(list[num].size()-1);
+			list[num].add(0, a);
+			list[num].remove(list[num].size()-1);
+		}
+		if(dir==-1) {
+			char a = list[num].get(0);
+			list[num].add(a);
+			list[num].remove(0);
+		}
+	}
+	public static void init() {
+		
+		for(int i=1;i<=3;i++) {
+			if(list[i].get(2)!=list[i+1].get(6)) {
+				checked[i]=1;//반대면
+			}
+			else {
+				checked[i]=0;
+			}
+		}
+	}
+}
