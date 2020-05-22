@@ -1,0 +1,104 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+
+	public static int r,c,totalo,totalv;
+	public static int[][] visited;
+	public static char[][] arr;
+	public static int[] cnt;
+	public static int[] arrayX= {-1,1,0,0};
+	public static int[] arrayY= {0,0,-1,1};
+	public static Queue<Node> queue = new LinkedList<Node>();
+	public static StringBuilder sb = new StringBuilder();
+	public static void main(String[] args) throws Exception {	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stzr = new StringTokenizer(br.readLine());
+		
+		r = Integer.parseInt(stzr.nextToken());
+		c = Integer.parseInt(stzr.nextToken());
+		
+		visited = new int[r][c];
+		arr = new char[r][c];
+		
+		for(int i=0;i<r;i++) {
+			String str = br.readLine();
+			for(int j=0;j<c;j++) {
+				arr[i][j] = str.charAt(j);
+			}
+		}//완성
+		
+		for(int i=0;i<r;i++) {
+			for(int j=0;j<c;j++) {
+				if((arr[i][j]=='v'||arr[i][j]=='o') && visited[i][j]==0) {
+					BFS(i,j, arr[i][j]);
+				}//늑대거나 양이면 bfs시작 
+				//아무것도 없는 비어있는 영역 탐색하는 것을 줄이기 위함 
+			}
+		}
+		System.out.println(totalo+" "+totalv);
+	}
+	
+	public static void BFS(int x, int y, char animal) {
+		queue.add(new Node(x,y));
+		visited[x][y]=1;
+		
+		cnt = new int[2];
+		
+		if(arr[x][y]=='o') {
+			cnt[0]++;
+		}
+		if(arr[x][y]=='v') {
+			cnt[1]++;
+		}
+		
+		while(!queue.isEmpty()) {
+			
+			Node node = queue.poll();
+			int xx = node.x;
+			int yy = node.y;
+			
+			for(int i=0;i<4;i++) {
+				for(int j=0;j<4;j++) {
+					int x1 = xx+arrayX[i];
+					int y1 = yy+arrayY[i];
+					
+					if(checked(x1,y1)&& visited[x1][y1]==0 && arr[x1][y1]!='#') {
+						queue.add(new Node(x1, y1));
+						visited[x1][y1]=1;
+						if(arr[x1][y1]=='o') {
+							cnt[0]++;
+						}if(arr[x1][y1]=='v') {
+							cnt[1]++;
+						}
+					}
+				}
+			}
+		}
+		
+		if(cnt[0]<=cnt[1]) {
+			cnt[0]=0;
+			totalv+=cnt[1];
+		}else {
+			cnt[1]=0;
+			totalo+=cnt[0];
+		}
+	}
+	public static boolean checked(int x, int y) {
+		if(x>=0 && y>=0 &&  x<r && y<c) {
+			return true;
+		}
+		return false;
+	}
+	public static class Node{
+		int x;
+		int y;
+		public Node(int x, int y) {
+			this.x=x;
+			this.y=y;
+		}
+	}
+}
