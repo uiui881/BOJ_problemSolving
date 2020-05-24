@@ -1,0 +1,26 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static long[] arr, tree;
+	public static void main(String[] args) throws Exception {	
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		
+		
+		int L = Integer.parseInt(br.readLine());
+		int A = Integer.parseInt(br.readLine());
+		int B = Integer.parseInt(br.readLine());
+		int C = Integer.parseInt(br.readLine());
+		int D = Integer.parseInt(br.readLine());
+
+		int date1 = A%C!=0 ? A/C+1 : A/C;
+		int date2 = B%D!=0 ? B/D+1 : B/D;
+		
+		int max = date1 > date2 ? L-date1 : L-date2;
+		System.out.println(max);
+	}
+}
