@@ -1,0 +1,85 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+
+public class Main {
+	
+	public static int n,m,r,c,d;
+	public static int[][] arr;
+	public static int[][] visited;//
+	public static int[] X = {-1,0,1,0};
+	public static int[] Y = {0,1,0,-1};
+	public static StringBuilder sb = new StringBuilder();
+    public static void main(String args[]) throws Exception {
+       
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer stzr = new StringTokenizer(br.readLine());
+    	
+    	n = Integer.parseInt(stzr.nextToken());
+    	m = Integer.parseInt(stzr.nextToken());
+    	
+    	arr = new int[n][m];
+    	visited = new int[n][m];//
+    	
+    	stzr = new StringTokenizer(br.readLine());
+    	r = Integer.parseInt(stzr.nextToken()); 
+    	c = Integer.parseInt(stzr.nextToken()); 
+    	d = Integer.parseInt(stzr.nextToken()); 
+    	
+    	for(int i=0;i<n;i++) {
+    		stzr = new StringTokenizer(br.readLine());
+    		for(int j=0;j<m;j++) {
+    			arr[i][j] = Integer.parseInt(stzr.nextToken());
+    		}
+    	}//표 완성
+    	
+    	cleaner();
+    }
+    
+    public static void cleaner() {
+    	visited[r][c]=1;
+    	int total=1;
+    	int dircnt=0;
+    	int dr = r;
+    	int dc = c;
+    	
+    	while(true) {
+    		
+    		d = (d+3)%4; //왼쪽 회전
+    		int tr = dr +X[d]; //회전하면 보이는 구역ㅇㅇㅇ
+    		int tc = dc +Y[d];
+    		//보이는 구역이 벽도 아니고 청소도 안했으면
+    		if(arr[tr][tc]==0 && visited[tr][tc]==0) {//벽이 아니고 청소도 안했으면
+    			dr = tr; //거기로 이동
+    			dc = tc; 
+    			visited[dr][dc]=1; //현재 위치 청소
+    			total++;
+    			dircnt=0;
+    			continue;
+    		}
+    		
+    		if(arr[tr][tc]==1 || visited[tr][tc]==1) { //벽이거나 청소를 했다
+    			dircnt++; // 이쪽 방향 확인 완료
+    			
+    			if(dircnt==4) { // 네 방향을 다 했다
+    				tr = dr-X[d];
+    				tc = dc-Y[d];//후진
+    				dircnt=0;
+    				if(arr[tr][tc]==1) {//후진이 불가능한 경우
+    					System.out.println(total);
+    					return;
+    				}
+    				else {
+    					dr= tr;
+    					dc= tc;
+    				}
+    			}
+    		}
+    		
+    		
+    	}
+    	
+    }
+}
